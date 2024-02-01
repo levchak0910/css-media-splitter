@@ -1,0 +1,61 @@
+{
+  "name": "css-media-splitter",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Utils that split css by media queries into dedicated files. Supports: plain html files, Vite and Nuxt.",
+  "author": "Levcsák Sándor",
+  "license": "MIT",
+  "homepage": "https://github.com/levchak0910/css-media-splitter",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/levchak0910/css-media-splitter"
+  },
+  "bugs": "https://github.com/levchak0910/css-media-splitter/issues",
+  "keywords": [
+    "css",
+    "media query",
+    "media query split",
+    "media query separate",
+    "vite-plugin",
+    "vite plugin",
+    "nuxt-module",
+    "nuxt module"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./*": "./*"
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "*.d.ts",
+    "dist"
+  ],
+  "engines": {
+    "node": ">=v18.13.0"
+  },
+  "scripts": {
+    "play": "pnpm -C playground run dev",
+    "dev": "unbuild --stub",
+    "build": "unbuild",
+    "lint": "eslint .",
+    "fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit",
+    "release": "bumpp package.json --commit --push --tag && pnpm -r publish --access public"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.6.3",
+    "@types/node": "^20.11.5",
+    "bumpp": "^9.3.0",
+    "eslint": "^8.56.0",
+    "nodemon": "^3.0.3",
+    "typescript": "^5.3.3",
+    "unbuild": "^2.0.0",
+    "vite": "^5.0.12"
+  }
+}

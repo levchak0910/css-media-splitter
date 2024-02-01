@@ -1,0 +1,6 @@
+/**
+ * Options.
+ */
+export interface Options {
+
+}

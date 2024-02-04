@@ -1,0 +1,18 @@
+{
+  "name": "nuxt",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "preview": "cross-env PORT=3001 nuxt preview",
+    "generate": "nuxt generate",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "css-media-splitter": "workspace:css-media-splitter",
+    "nuxt": "^3.10.0",
+    "vue": "^3.4.15",
+    "vue-router": "^4.2.5"
+  }
+}

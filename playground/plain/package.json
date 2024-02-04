@@ -1,0 +1,19 @@
+{
+  "name": "plain",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "main": "index.js",
+  "scripts": {
+    "build": "mkdir -p dist && cp -r src/* dist/ && tsx media-splitter.ts",
+    "preview": "serve dist"
+  },
+  "devDependencies": {
+    "css-media-splitter": "workspace:*",
+    "serve": "^14.2.1",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}

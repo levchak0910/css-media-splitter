@@ -14,12 +14,16 @@ import { writeHTMLFiles } from "../functions/write-html-files"
 
 import processCssMediaSplitter from "../process"
 
-export default defineNuxtModule({
+interface Options {
+  mediaFileMinSize?: number
+}
+
+export default defineNuxtModule<Options>({
   meta: {
     name: `nuxt-module-${LIB_NAME}`,
     configKey: "nuxtModuleCssMediaSplitter",
   },
-  async setup(_options, nuxt) {
+  async setup(options, nuxt) {
     if (nuxt.options._prepare)
       return
 
@@ -39,23 +43,27 @@ export default defineNuxtModule({
         const distDir = path.resolve(nuxt.options.rootDir, ".output", "public")
         const assetDir = nuxt.options.app.buildAssetsDir.replaceAll("/", "")
 
-        const { handler } = await processCssMediaSplitter({
+        const result = await processCssMediaSplitter({
           distDir,
           assetDir,
+          mediaFileMinSize: options.mediaFileMinSize,
         })
+
+        if (result === null)
+          return
 
         const { htmlFiles } = await getBundleFiles({ distDir })
 
         await writeHTMLFiles({
           files: htmlFiles,
           assetDir,
-          html: handler.html,
+          html: result.handler.html,
         })
       })
     }
 
     if (IS_BUILD) {
-      let handler: Handler | undefined
+      let handler: Handler | null = null
 
       await nuxt.hook("build:done", async () => {
         const distDir = path.resolve(nuxt.options.buildDir, "dist", "client")
@@ -66,24 +74,28 @@ export default defineNuxtModule({
           assetDir,
         })
 
-        handler = result.handler
+        if (result !== null)
+          handler = result.handler
       })
 
       await nuxt.hook("close", async () => {
+        if (handler === null)
+          return
+
         const rendererPath = path.resolve(nuxt.options.rootDir, ".output", "server", "chunks", "handlers", "renderer.mjs")
         let renderer = await file.read.plain(rendererPath)
 
         renderer = renderer.replace(
           JSON.stringify(DATA_REPLACER),
-          JSON.stringify({ innerHTML: handler!.manifest.content, id: "<POST_BUILD: INSERT TEMPLATE ID>", type: "application/json" }),
+          JSON.stringify({ innerHTML: handler.manifest.content, id: "<POST_BUILD: INSERT TEMPLATE ID>", type: "application/json" }),
         )
         renderer = renderer.replace(
           JSON.stringify(HANDLER_REPLACER),
-          JSON.stringify({ innerHTML: handler!.script.content }),
+          JSON.stringify({ innerHTML: handler.script.content }),
         )
 
         await file.write.plain(rendererPath, renderer)
       })
     }
   },
-}) as NuxtModule
+}) as NuxtModule<Options>

@@ -1,12 +1,14 @@
-import postcss from "postcss"
+import postcss, { type AtRule } from "postcss"
 import { kebabCase } from "case-anything"
 
 import type { FileData } from "../models/File"
 import type { MediaData, MediaManifest } from "../models/Media"
 
-export async function extractMedia(cssFile: FileData): Promise<{ mediaData: MediaData[], transformedCSS: string }> {
+export async function extractMedia(cssFile: FileData, minSize: number): Promise<{ mediaData: MediaData[], transformedCSS: string }> {
   const ast = postcss().process(cssFile.content)
   const mq: MediaData[] = []
+
+  const atRuleStore = new Map<string, Set<AtRule>>()
 
   ast.root.walkAtRules("media", (atRule) => {
     const query = atRule.params
@@ -29,7 +31,24 @@ export async function extractMedia(cssFile: FileData): Promise<{ mediaData: Medi
       })
     }
 
-    atRule.remove()
+    if (atRuleStore.has(query)) {
+      const set = atRuleStore.get(query)!
+      set.add(atRule)
+    }
+    else {
+      atRuleStore.set(query, new Set([atRule]))
+    }
+  })
+
+  atRuleStore.forEach((set, query) => {
+    const existingMQRecordIndex = mq.findIndex(data => data.query === query)
+    const contentLength = mq[existingMQRecordIndex].nodeContents.join("").length
+
+    if (contentLength < minSize)
+      mq.splice(existingMQRecordIndex, 1)
+
+    else
+      set.forEach(atRule => atRule.remove())
   })
 
   return {

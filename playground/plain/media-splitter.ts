@@ -2,10 +2,13 @@ import processCssMediaSplitter from "css-media-splitter/plain"
 import { getBundleFiles, writeHTMLFiles } from "css-media-splitter/api"
 
 (async () => {
-  const { handler } = await processCssMediaSplitter({
+  const result = await processCssMediaSplitter({
     distDir: "dist",
     assetDir: "styles",
   })
+
+  if (result === null)
+    return
 
   const { htmlFiles } = await getBundleFiles({
     distDir: "dist",
@@ -14,6 +17,6 @@ import { getBundleFiles, writeHTMLFiles } from "css-media-splitter/api"
   await writeHTMLFiles({
     assetDir: "styles",
     files: htmlFiles,
-    html: handler.html,
+    html: result.handler.html,
   })
 })()

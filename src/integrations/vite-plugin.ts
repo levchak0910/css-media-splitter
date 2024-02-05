@@ -9,7 +9,11 @@ import { writeHTMLFiles } from "../functions/write-html-files"
 
 import processCssMediaSplitter from "../process"
 
-export default function VitePluginCssMediaSplitter(): Plugin {
+interface Options {
+  mediaFileMinSize?: number
+}
+
+export default function VitePluginCssMediaSplitter(options?: Options): Plugin {
   let config: undefined | ResolvedConfig
 
   return {
@@ -28,17 +32,21 @@ export default function VitePluginCssMediaSplitter(): Plugin {
         const distDir = path.resolve(config.root, config.build.outDir)
         const assetDir = config.build.assetsDir
 
-        const { handler } = await processCssMediaSplitter({
+        const result = await processCssMediaSplitter({
           distDir,
           assetDir,
+          mediaFileMinSize: options?.mediaFileMinSize,
         })
+
+        if (result === null)
+          return
 
         const { htmlFiles } = await getBundleFiles({ distDir })
 
         await writeHTMLFiles({
           files: htmlFiles,
           assetDir,
-          html: handler.html,
+          html: result.handler.html,
         })
       },
     },

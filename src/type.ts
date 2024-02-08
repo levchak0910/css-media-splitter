@@ -1,6 +1,0 @@
-/**
- * Options.
- */
-export interface Options {
-
-}

@@ -7,13 +7,20 @@
   "keywords": [],
   "main": "index.js",
   "scripts": {
-    "build": "mkdir -p dist && cp -r src/* dist/ && tsx media-splitter.ts",
-    "preview": "serve dist"
+    "build": "rimraf dist && cpx 'src/**/*' dist/ && tsx media-splitter.ts",
+    "preview": "serve dist",
+    "test:unit": "vitest -c ./vitest.config.ts --run",
+    "test:visual": "pnpm build && playwright test",
+    "test": "pnpm test:unit && pnpm test:visual"
   },
   "devDependencies": {
+    "@playwright/test": "^1.41.2",
+    "cpx": "^1.5.0",
     "css-media-splitter": "workspace:*",
+    "rimraf": "^5.0.5",
     "serve": "^14.2.1",
     "tsx": "^4.7.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.2"
   }
 }

@@ -1,0 +1,11 @@
+#app-small {
+  background: red;
+  color: white;
+}
+
+@media screen and (min-width: 1000px) {
+  #app-small {
+    background: white;
+    color: red;
+  }  
+}

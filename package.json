@@ -62,9 +62,12 @@
     "play": "pnpm -C playground run dev",
     "dev": "unbuild --stub",
     "build": "unbuild && tsx bin/post-build.ts",
+    "build:all": "pnpm build && pnpm -r build",
     "lint": "eslint .",
     "fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
+    "test": "vitest -c ./vitest.config.ts --run",
+    "test:all": "pnpm test && pnpm -r test",
     "release": "bumpp package.json --commit --push --tag && pnpm -r publish --access public"
   },
   "dependencies": {
@@ -75,16 +78,20 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.3",
+    "@types/cpx": "^1.5.5",
     "@types/node": "^20.11.5",
     "@types/uglify-js": "^3.17.4",
     "@unhead/schema": "^1.8.10",
     "bumpp": "^9.3.0",
+    "cpx": "^1.5.0",
     "eslint": "^8.56.0",
     "nodemon": "^3.0.3",
+    "rimraf": "^5.0.5",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3",
     "uglify-js": "^3.17.4",
     "unbuild": "^2.0.0",
-    "vite": "^5.0.12"
+    "vite": "^5.0.12",
+    "vitest": "^1.2.2"
   }
 }

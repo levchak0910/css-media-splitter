@@ -1,19 +1,19 @@
 import path from "node:path"
+import { fileURLToPath } from "node:url"
 
-import { configDefaults, defineConfig } from "vitest/config"
+import { defineConfig } from "vitest/config"
+
+const dirname = fileURLToPath(new URL(".", import.meta.url))
 
 export default defineConfig({
   test: {
     include: [
+      "playground/**/tests/**/*.fs.test.ts",
       "tests/**/*.test.ts",
     ],
-    exclude: [
-      "playground/**/*",
-      ...configDefaults.exclude,
-    ],
     alias: {
-      "@": path.join(__dirname, "src"),
-      "~": path.join(__dirname, "tests"),
+      "@": path.join(dirname, "src"),
+      "~": path.join(dirname, "tests"),
     },
     fileParallelism: false,
   },

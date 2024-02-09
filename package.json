@@ -67,7 +67,7 @@
     "lint": "pnpm eslint .",
     "fix": "pnpm lint --fix",
     "typecheck": "tsc --noEmit",
-    "test": "vitest -c ./vitest.config.ts --run",
+    "test": "vitest --run",
     "test:all": "pnpm test && pnpm -r test",
     "release": "bumpp package.json --commit --push --tag && pnpm -r publish --access public"
   },
@@ -79,6 +79,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.3",
+    "@playwright/test": "^1.41.2",
     "@types/cpx": "^1.5.5",
     "@types/node": "^20.11.5",
     "@types/uglify-js": "^3.17.4",

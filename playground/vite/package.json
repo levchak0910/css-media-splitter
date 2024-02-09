@@ -6,15 +6,11 @@
   "scripts": {
     "build": "vite build",
     "preview": "vite preview",
-    "test:unit": "vitest -c ./vitest.config.ts --run",
-    "test:visual": "pnpm build && playwright test",
-    "test": "pnpm test:unit && pnpm test:visual"
+    "test": "playwright test"
   },
   "devDependencies": {
-    "@playwright/test": "^1.41.2",
     "css-media-splitter": "workspace:*",
     "vite": "^5.0.12",
-    "vite-plugin-inspect": "^0.8.1",
-    "vitest": "^1.2.2"
+    "vite-plugin-inspect": "^0.8.1"
   }
 }

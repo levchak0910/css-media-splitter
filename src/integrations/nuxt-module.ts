@@ -7,7 +7,7 @@ import { LIB_NAME } from "../config"
 
 import { file } from "../utils/fs"
 
-import type { Handler } from "../models/Handler"
+import type { Loader } from "../models/Loader"
 
 import { getBundleFiles } from "../functions/get-bundle-files"
 import { writeHTMLFiles } from "../functions/write-html-files"
@@ -31,12 +31,12 @@ export default defineNuxtModule<Options>({
     const IS_BUILD = !nuxt.options._generate && !nuxt.options._prepare && !nuxt.options._start && !nuxt.options.dev
 
     const DATA_REPLACER = { id: "data" }
-    const HANDLER_REPLACER = { id: "handler" }
+    const LOADER_REPLACER = { id: "loader" }
 
     if (nuxt.options.app.head.script)
-      nuxt.options.app.head.script.push(DATA_REPLACER, HANDLER_REPLACER)
+      nuxt.options.app.head.script.push(DATA_REPLACER, LOADER_REPLACER)
     else
-      nuxt.options.app.head.script = [DATA_REPLACER, HANDLER_REPLACER]
+      nuxt.options.app.head.script = [DATA_REPLACER, LOADER_REPLACER]
 
     if (IS_GENERATE) {
       await nuxt.hook("close", async () => {
@@ -57,13 +57,13 @@ export default defineNuxtModule<Options>({
         await writeHTMLFiles({
           files: htmlFiles,
           assetDir,
-          html: result.handler.html,
+          html: result.loader.html,
         })
       })
     }
 
     if (IS_BUILD) {
-      let handler: Handler | null = null
+      let loader: Loader | null = null
 
       await nuxt.hook("build:done", async () => {
         const distDir = path.resolve(nuxt.options.buildDir, "dist", "client")
@@ -75,23 +75,23 @@ export default defineNuxtModule<Options>({
         })
 
         if (result !== null)
-          handler = result.handler
+          loader = result.loader
       })
 
       await nuxt.hook("close", async () => {
-        if (handler === null)
+        if (loader === null)
           return
 
-        const rendererPath = path.resolve(nuxt.options.rootDir, ".output", "server", "chunks", "handlers", "renderer.mjs")
+        const rendererPath = path.resolve(nuxt.options.rootDir, ".output", "server", "chunks", "loaders", "renderer.mjs")
         let renderer = await file.read.plain(rendererPath)
 
         renderer = renderer.replace(
           JSON.stringify(DATA_REPLACER),
-          JSON.stringify({ innerHTML: handler.manifest.content, id: "<POST_BUILD: INSERT TEMPLATE ID>", type: "application/json" }),
+          JSON.stringify({ innerHTML: loader.manifest.content, id: "<POST_BUILD: INSERT TEMPLATE ID>", type: "application/json" }),
         )
         renderer = renderer.replace(
-          JSON.stringify(HANDLER_REPLACER),
-          JSON.stringify({ innerHTML: handler.script.content }),
+          JSON.stringify(LOADER_REPLACER),
+          JSON.stringify({ innerHTML: loader.script.content }),
         )
 
         await file.write.plain(rendererPath, renderer)

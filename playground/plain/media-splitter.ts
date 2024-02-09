@@ -17,6 +17,6 @@ import { getBundleFiles, writeHTMLFiles } from "css-media-splitter/api"
   await writeHTMLFiles({
     assetDir: "styles",
     files: htmlFiles,
-    html: result.handler.html,
+    html: result.loader.html,
   })
 })()

@@ -1,4 +1,4 @@
-export interface Handler {
+export interface Loader {
   script: {
     content: string
     html: string

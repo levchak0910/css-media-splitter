@@ -1,4 +1,4 @@
-import { HANDLER_REPLACE_COMMENT } from "../config"
+import { LOADER_REPLACE_COMMENT } from "../config"
 
 import { file } from "../utils/fs"
 
@@ -16,10 +16,10 @@ export async function writeHTMLFiles(options: MediaOptions) {
     let ready = false
 
     if (!ready) {
-      const index = html.indexOf(HANDLER_REPLACE_COMMENT)
+      const index = html.indexOf(LOADER_REPLACE_COMMENT)
 
       if (index > -1) {
-        html = html.slice(0, index) + options.html + html.slice(index + HANDLER_REPLACE_COMMENT.length)
+        html = html.slice(0, index) + options.html + html.slice(index + LOADER_REPLACE_COMMENT.length)
         ready = true
       }
     }

@@ -9,7 +9,7 @@ import { dir, file } from "../src/utils/fs"
 const INSERT_ID_KEY = "<POST_BUILD: INSERT TEMPLATE ID>"
 const INSERT_ID_VALUE = `${LIB_NAME}--id`
 
-const INSERT_HANDLER_KEY = "<POST_BUILD: INSERT TEMPLATE OBSERVER>"
+const INSERT_LOADER_KEY = "<POST_BUILD: INSERT TEMPLATE OBSERVER>"
 
 ;(async () => {
   let observerFileSource = await file.read.plain("src/template/observer.js")
@@ -22,7 +22,7 @@ const INSERT_HANDLER_KEY = "<POST_BUILD: INSERT TEMPLATE OBSERVER>"
   for await (const jsFilePath of jsFiles) {
     let jsContent = await file.read.plain(jsFilePath)
     jsContent = jsContent.replace(INSERT_ID_KEY, INSERT_ID_VALUE)
-    jsContent = jsContent.replace(INSERT_HANDLER_KEY, observerFileCode)
+    jsContent = jsContent.replace(INSERT_LOADER_KEY, observerFileCode)
     await file.write.plain(jsFilePath, jsContent)
   }
 })()

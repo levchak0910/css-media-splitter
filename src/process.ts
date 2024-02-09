@@ -1,9 +1,9 @@
 import type { MediaManifest } from "./models/Media"
-import type { Handler } from "./models/Handler"
+import type { Loader } from "./models/Loader"
 
 import { getBundleFiles } from "./functions/get-bundle-files"
 import { extractMedia, getMediaManifest } from "./functions/extract-media-data"
-import { getHandler } from "./functions/get-handler"
+import { getLoader } from "./functions/get-loader"
 import { writeMainCSSFile, writeMediaCSSFiles } from "./functions/write-css-files"
 
 interface Options {
@@ -14,7 +14,7 @@ interface Options {
 
 const DEFAULT_MEDIA_FILE_MIN_SIZE = 150
 
-export default async function processCssMediaSplitter(options: Options): Promise<null | { handler: Handler, manifest: MediaManifest }> {
+export default async function processCssMediaSplitter(options: Options): Promise<null | { loader: Loader, manifest: MediaManifest }> {
   const { distDir, assetDir } = options
 
   const mediaFileMinSize = options?.mediaFileMinSize ?? DEFAULT_MEDIA_FILE_MIN_SIZE
@@ -50,10 +50,10 @@ export default async function processCssMediaSplitter(options: Options): Promise
     assetDir,
   })
 
-  const handler = getHandler(mediaManifest)
+  const loader = getLoader(mediaManifest)
 
   return {
-    handler,
+    loader,
     manifest: mediaManifest,
   }
 }

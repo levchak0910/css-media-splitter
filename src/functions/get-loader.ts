@@ -1,19 +1,19 @@
-import type { Handler } from "../models/Handler"
+import type { Loader } from "../models/Loader"
 import type { MediaManifest } from "../models/Media"
 
-export function getHandler(mediaManifest: MediaManifest): Handler {
+export function getLoader(mediaManifest: MediaManifest): Loader {
   const manifestContent = JSON.stringify(mediaManifest)
   const manifestHTML = `<script id="<POST_BUILD: INSERT TEMPLATE ID>" type="application/json">${manifestContent}</script>`
 
-  const handlerContent = "<POST_BUILD: INSERT TEMPLATE OBSERVER>"
-  const handlerHTML = `<script>${handlerContent}</script>`
+  const loaderContent = "<POST_BUILD: INSERT TEMPLATE OBSERVER>"
+  const loaderHTML = `<script>${loaderContent}</script>`
 
-  const finalHTML = [manifestHTML, "\n", handlerHTML, "\n"].join("")
+  const finalHTML = [manifestHTML, "\n", loaderHTML, "\n"].join("")
 
   return {
     script: {
-      content: handlerContent,
-      html: handlerHTML,
+      content: loaderContent,
+      html: loaderHTML,
     },
     manifest: {
       content: manifestContent,

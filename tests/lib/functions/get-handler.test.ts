@@ -2,13 +2,13 @@ import { describe, expect, it } from "vitest"
 
 import type { MediaManifest } from "@/models/Media"
 
-import { getHandler } from "@/api"
+import { getLoader } from "@/api"
 
-describe.sequential("getHandler", () => {
-  it("returns handler from provided media manifest", async () => {
+describe.sequential("getLoader", () => {
+  it("returns loader from provided media manifest", async () => {
     const manifest: MediaManifest = { "css-file-base": [["media-query", "media-css file-base"]] }
 
-    const result = await getHandler(manifest)
+    const result = await getLoader(manifest)
 
     expect(result.manifest.content).toBe(JSON.stringify(manifest))
     expect(result.manifest.html).toContain(JSON.stringify(manifest))

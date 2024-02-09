@@ -46,7 +46,7 @@ export default function VitePluginCssMediaSplitter(options?: Options): Plugin {
         await writeHTMLFiles({
           files: htmlFiles,
           assetDir,
-          html: result.handler.html,
+          html: result.loader.html,
         })
       },
     },

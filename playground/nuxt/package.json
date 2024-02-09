@@ -5,12 +5,11 @@
   "scripts": {
     "build": "nuxt build",
     "preview": "cross-env PORT=3001 nuxt preview",
-    "generate": "nuxt generate",
-    "postinstall": "nuxt prepare"
+    "generate": "nuxt generate"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "css-media-splitter": "workspace:css-media-splitter",
+    "css-media-splitter": "workspace:*",
     "nuxt": "^3.10.0",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5"

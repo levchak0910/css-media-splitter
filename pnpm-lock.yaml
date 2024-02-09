@@ -76,7 +76,7 @@ importers:
         specifier: ^7.0.3
         version: 7.0.3
       css-media-splitter:
-        specifier: workspace:css-media-splitter
+        specifier: workspace:*
         version: link:../..
       nuxt:
         specifier: ^3.10.0

@@ -69,7 +69,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest --run",
     "test:all": "pnpm test && pnpm -r test",
-    "release": "bumpp package.json --commit --push --tag && pnpm -r publish --access public"
+    "release": "bumpp package.json --commit --push --tag && pnpm -r publish --access public",
+    "prepare": "husky"
   },
   "dependencies": {
     "@nuxt/kit": "^3.10.0",
@@ -87,6 +88,8 @@
     "bumpp": "^9.3.0",
     "cpx": "^1.5.0",
     "eslint": "^8.56.0",
+    "husky": "^9.0.10",
+    "lint-staged": "^15.2.2",
     "nodemon": "^3.0.3",
     "playwright": "^1.41.2",
     "rimraf": "^5.0.5",

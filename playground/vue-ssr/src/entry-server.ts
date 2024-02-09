@@ -6,7 +6,7 @@ import type { ParameterizedContext } from "koa"
 import App from "./App.vue"
 
 export async function render(
-  ctx: ParameterizedContext,
+  _ctx: ParameterizedContext,
   manifest: Record<string, string[]>,
 ): Promise<[string, string]> {
   const app = createSSRApp(App)

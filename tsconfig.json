@@ -7,7 +7,11 @@
     "moduleResolution": "Node",
     "paths": {
       "@/*": ["./src/*"],
-      "~/*": ["./tests/*"]
+      "~/*": ["./tests/*"],
+      "css-media-splitter/api": ["./dist/api"],
+      "css-media-splitter/plain": ["./dist/process"],
+      "css-media-splitter/vite-plugin": ["./dist/integrations/vite-plugin"],
+      "css-media-splitter/nuxt-module": ["./dist/integrations/nuxt-module"]
     },
     "resolveJsonModule": true,
     "strict": true,

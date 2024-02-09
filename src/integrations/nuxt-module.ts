@@ -82,7 +82,7 @@ export default defineNuxtModule<Options>({
         if (loader === null)
           return
 
-        const rendererPath = path.resolve(nuxt.options.rootDir, ".output", "server", "chunks", "loaders", "renderer.mjs")
+        const rendererPath = path.resolve(nuxt.options.rootDir, ".output", "server", "chunks", "handlers", "renderer.mjs")
         let renderer = await file.read.plain(rendererPath)
 
         renderer = renderer.replace(

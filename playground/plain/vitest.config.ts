@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url"
 
 import { defineConfig } from "vitest/config"
 
-const __dirname = fileURLToPath(new URL(".", import.meta.url))
+const dirname = fileURLToPath(new URL(".", import.meta.url))
 
 export default defineConfig({
   test: {
@@ -11,7 +11,7 @@ export default defineConfig({
       "tests/*.fs.test.ts",
     ],
     alias: {
-      "@": path.resolve(__dirname, "..", "..", "src"),
+      "@": path.resolve(dirname, "..", "..", "src"),
     },
   },
 })

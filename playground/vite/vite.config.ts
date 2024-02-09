@@ -6,6 +6,7 @@ import VitePluginCssMediaSplitter from "css-media-splitter/vite-plugin"
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  preview: { port: 4171 },
   build: {
     rollupOptions: {
       output: {

@@ -22,7 +22,7 @@ jobs:
           node-version: latest
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.4.0
+        uses: pnpm/action-setup@v3.0.0
         with:
           version: latest
 
@@ -44,7 +44,7 @@ jobs:
           node-version: latest
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.4.0
+        uses: pnpm/action-setup@v3.0.0
         with:
           version: latest
 
@@ -69,15 +69,18 @@ jobs:
           node-version: latest
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.4.0
+        uses: pnpm/action-setup@v3.0.0
         with:
           version: latest
 
-      - name: Install
+      - name: Install packages
         run: pnpm install --no-frozen-lockfile
+
+      - name: Install playwright
+        run: pnpm exec playwright install --with-deps chromium
 
       - name: Build
         run: pnpm run build
 
       - name: Test
-        run: pnpm run test
+        run: pnpm run test:all

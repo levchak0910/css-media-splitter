@@ -5,10 +5,11 @@ import { describe, expect, it } from "vitest"
 import { getBundleFiles } from "@/api"
 import type { FileData } from "@/models/File"
 import { file } from "@/utils/fs"
-
-const SMALL_APP_PATH = path.resolve("tests", "fixtures", "app-small")
+import { prepareFixtures } from "~/utils/fixtures"
 
 describe.sequential("getBundleFiles", () => {
+  const { SMALL_APP_PATH } = prepareFixtures()
+
   it("returns css files data and html files data of the provided folder", async () => {
     const htmlFilePath = path.join(SMALL_APP_PATH, "index.html")
     const htmlFileContent = await file.read.plain(htmlFilePath)

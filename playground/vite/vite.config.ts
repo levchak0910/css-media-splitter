@@ -17,6 +17,6 @@ export default defineConfig({
   },
   plugins: [
     Inspect(),
-    VitePluginCssMediaSplitter(),
+    VitePluginCssMediaSplitter({ mediaFileMinSize: 0 }),
   ],
 })

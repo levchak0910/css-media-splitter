@@ -15,6 +15,6 @@ export default defineConfig({
   },
   plugins: [
     vue(),
-    VitePluginCssMediaSplitter(),
+    VitePluginCssMediaSplitter({ mediaFileMinSize: 0 }),
   ],
 })

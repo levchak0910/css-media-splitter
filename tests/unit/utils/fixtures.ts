@@ -6,12 +6,14 @@ import cpx from "cpx"
 
 import { dir, file } from "@/utils/fs"
 
-const COMPILED_FOLDER_PATH = path.resolve("tests", "fixtures", "compiled")
-const COMPILED_SMALL_APP_PATH = path.resolve(COMPILED_FOLDER_PATH, "app-small")
-const COMPILED_BIG_APP_PATH = path.resolve(COMPILED_FOLDER_PATH, "app-big")
+const TESTS_ROOT_PATH = path.resolve("tests", "unit")
 
-const SMALL_APP_PATH = path.resolve("tests", "fixtures", "app-small")
-const BIG_APP_PATH = path.resolve("tests", "fixtures", "app-big")
+const COMPILED_FOLDER_PATH = path.join(TESTS_ROOT_PATH, "fixtures", "compiled")
+const COMPILED_SMALL_APP_PATH = path.join(COMPILED_FOLDER_PATH, "app-small")
+const COMPILED_BIG_APP_PATH = path.join(COMPILED_FOLDER_PATH, "app-big")
+
+const SMALL_APP_PATH = path.join(TESTS_ROOT_PATH, "fixtures", "app-small")
+const BIG_APP_PATH = path.join(TESTS_ROOT_PATH, "fixtures", "app-big")
 
 export function prepareFixtures() {
   beforeEach(async () => {

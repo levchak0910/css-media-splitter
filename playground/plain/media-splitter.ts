@@ -5,6 +5,7 @@ import { getBundleFiles, stringifyReport, writeHTMLFiles } from "css-media-split
   const result = await processCssMediaSplitter({
     distDir: "dist",
     assetDir: "styles",
+    mediaFileMinSize: 0,
   })
 
   if (result === null)

@@ -31,14 +31,14 @@ describe.sequential("processCssMediaSplitter", () => {
     ])
 
     expect(result.report).toStrictEqual({
-      "tests/fixtures/compiled/app-big/styles/app.css": {
+      "tests/unit/fixtures/compiled/app-big/styles/app.css": {
         content: {
           original: 310,
           transformed: 48,
         },
         mediaFiles: [
           {
-            path: "tests/fixtures/compiled/app-big/styles/screen-and-minwidth-1000px__app.css",
+            path: "tests/unit/fixtures/compiled/app-big/styles/screen-and-minwidth-1000px__app.css",
             query: "screen and (min-width: 1000px)",
             size: 255,
           },
@@ -61,14 +61,14 @@ describe.sequential("processCssMediaSplitter", () => {
     ])
 
     expect(result.report).toStrictEqual({
-      "tests/fixtures/compiled/app-small/styles/app.css": {
+      "tests/unit/fixtures/compiled/app-small/styles/app.css": {
         content: {
           original: 153,
           transformed: 50,
         },
         mediaFiles: [
           {
-            path: "tests/fixtures/compiled/app-small/styles/screen-and-minwidth-1000px__app.css",
+            path: "tests/unit/fixtures/compiled/app-small/styles/screen-and-minwidth-1000px__app.css",
             query: "screen and (min-width: 1000px)",
             size: 94,
           },

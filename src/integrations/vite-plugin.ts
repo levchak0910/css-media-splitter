@@ -6,6 +6,7 @@ import { LIB_NAME } from "../config"
 
 import { getBundleFiles } from "../functions/get-bundle-files"
 import { writeHTMLFiles } from "../functions/write-html-files"
+import { stringifyReport } from "../functions/report"
 
 import processCssMediaSplitter from "../process"
 
@@ -48,6 +49,9 @@ export default function VitePluginCssMediaSplitter(options?: Options): Plugin {
           assetDir,
           html: result.loader.html,
         })
+
+        // eslint-disable-next-line no-console
+        console.log(stringifyReport(result.report, "vite"))
       },
     },
   }

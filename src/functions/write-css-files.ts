@@ -4,6 +4,8 @@ import { file } from "../utils/fs"
 
 import type { MediaData } from "../models/Media"
 
+import { getMediaFile } from "./extract-media-data"
+
 interface MainOptions {
   path: string
   content: string
@@ -23,10 +25,9 @@ export async function writeMediaCSSFiles(options: MediaOptions) {
   const rootPath = path.resolve(options.distDir, options.assetDir)
 
   const mediaFilesPromises = options.mediaData.map(async (data) => {
-    const mediaFilePath = path.resolve(rootPath, `${data.name}__${data.fileName}`)
-    const rulesContent = data.nodeContents.join("")
-    const content = `@media ${data.query}{${rulesContent}}`
-    await file.write.plain(mediaFilePath, content)
+    const mediaFile = getMediaFile(data)
+    const mediaFilePath = path.resolve(rootPath, mediaFile.name)
+    await file.write.plain(mediaFilePath, mediaFile.content)
   })
 
   await Promise.all(mediaFilesPromises)

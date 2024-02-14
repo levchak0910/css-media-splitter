@@ -1,5 +1,5 @@
 import processCssMediaSplitter from "css-media-splitter/plain"
-import { getBundleFiles, writeHTMLFiles } from "css-media-splitter/api"
+import { getBundleFiles, stringifyReport, writeHTMLFiles } from "css-media-splitter/api"
 
 (async () => {
   const result = await processCssMediaSplitter({
@@ -19,4 +19,7 @@ import { getBundleFiles, writeHTMLFiles } from "css-media-splitter/api"
     files: htmlFiles,
     html: result.loader.html,
   })
+
+  // eslint-disable-next-line no-console
+  console.log(stringifyReport(result.report))
 })()

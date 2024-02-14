@@ -17,6 +17,9 @@ importers:
       case-anything:
         specifier: ^2.1.13
         version: 2.1.13
+      picocolors:
+        specifier: ^1.0.0
+        version: 1.0.0
       postcss:
         specifier: ^8.4.33
         version: 8.4.33
@@ -6010,6 +6013,7 @@ packages:
 
   /file-uri-to-path@1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
+    requiresBuild: true
     dev: true
 
   /filename-regex@2.0.1:

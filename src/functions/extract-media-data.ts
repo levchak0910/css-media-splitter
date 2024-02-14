@@ -64,7 +64,8 @@ interface MediaManifestOptions {
 
 export function getMediaManifest(options: MediaManifestOptions): MediaManifest {
   const mediaManifest = options.mediaData.reduce((acc, data) => {
-    const href = `/${options.assetDir}/${data.name}__${data.fileName}`.replace(/\/+/g, "/")
+    const mediaFile = getMediaFile(data)
+    const href = `/${options.assetDir}/${mediaFile.name}`.replace(/\/+/g, "/")
     const accRecord = [data.query, href] as const
 
     const recordName = data.filePath
@@ -78,4 +79,11 @@ export function getMediaManifest(options: MediaManifestOptions): MediaManifest {
   }, {} as MediaManifest)
 
   return mediaManifest
+}
+
+export function getMediaFile(mediaData: MediaData): { name: string, content: string } {
+  return {
+    name: `${mediaData.name}__${mediaData.fileName}`,
+    content: `@media ${mediaData.query}{${mediaData.nodeContents.join("")}}`,
+  }
 }

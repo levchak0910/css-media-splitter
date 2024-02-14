@@ -18,7 +18,7 @@ describe.sequential("processCssMediaSplitter", () => {
     expect(result).toBe(null)
   })
 
-  it("return mediaData and resolver when some media files are bigger then 150 chars by default", async () => {
+  it("return mediaData, resolver and report when some media files are bigger then 150 chars by default", async () => {
     const result = (await processCssMediaSplitter({
       distDir: COMPILED_BIG_APP_PATH,
       assetDir,
@@ -29,9 +29,25 @@ describe.sequential("processCssMediaSplitter", () => {
     expect(result.manifest[mediaFilePath]).toStrictEqual([
       ["screen and (min-width: 1000px)", "/styles/screen-and-minwidth-1000px__app.css"],
     ])
+
+    expect(result.report).toStrictEqual({
+      "tests/fixtures/compiled/app-big/styles/app.css": {
+        content: {
+          original: 310,
+          transformed: 48,
+        },
+        mediaFiles: [
+          {
+            path: "tests/fixtures/compiled/app-big/styles/screen-and-minwidth-1000px__app.css",
+            query: "screen and (min-width: 1000px)",
+            size: 255,
+          },
+        ],
+      },
+    })
   })
 
-  it("return mediaData and resolver when some media files are bigger then 10 chars by user config", async () => {
+  it("return mediaData, resolver and report when some media files are bigger then 10 chars by user config", async () => {
     const result = (await processCssMediaSplitter({
       distDir: COMPILED_SMALL_APP_PATH,
       assetDir,
@@ -43,5 +59,21 @@ describe.sequential("processCssMediaSplitter", () => {
     expect(result.manifest[mediaFilePath]).toStrictEqual([
       ["screen and (min-width: 1000px)", "/styles/screen-and-minwidth-1000px__app.css"],
     ])
+
+    expect(result.report).toStrictEqual({
+      "tests/fixtures/compiled/app-small/styles/app.css": {
+        content: {
+          original: 153,
+          transformed: 50,
+        },
+        mediaFiles: [
+          {
+            path: "tests/fixtures/compiled/app-small/styles/screen-and-minwidth-1000px__app.css",
+            query: "screen and (min-width: 1000px)",
+            size: 94,
+          },
+        ],
+      },
+    })
   })
 })

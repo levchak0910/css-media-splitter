@@ -76,6 +76,7 @@
     "@nuxt/kit": "^3.10.0",
     "@nuxt/schema": "^3.10.0",
     "case-anything": "^2.1.13",
+    "picocolors": "^1.0.0",
     "postcss": "^8.4.33"
   },
   "devDependencies": {

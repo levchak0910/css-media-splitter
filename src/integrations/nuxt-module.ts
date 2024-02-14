@@ -11,6 +11,7 @@ import type { Loader } from "../models/Loader"
 
 import { getBundleFiles } from "../functions/get-bundle-files"
 import { writeHTMLFiles } from "../functions/write-html-files"
+import { stringifyReport } from "../functions/report"
 
 import processCssMediaSplitter from "../process"
 
@@ -74,8 +75,13 @@ export default defineNuxtModule<Options>({
           assetDir,
         })
 
-        if (result !== null)
-          loader = result.loader
+        if (result === null)
+          return
+
+        loader = result.loader
+
+        // eslint-disable-next-line no-console
+        console.log(stringifyReport(result.report, "nuxt"))
       })
 
       await nuxt.hook("close", async () => {

@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest"
 import type { MediaData, MediaManifest } from "@/models/Media"
 import type { FileData } from "@/models/File"
 
-import { extractMedia, getMediaManifest } from "@/functions/extract-media-data"
+import { extractMedia, getMediaFile, getMediaManifest } from "@/functions/extract-media-data"
 
 import { compressCSS } from "~/utils/css"
 
@@ -106,6 +106,15 @@ describe.sequential("extract media data", () => {
       })
 
       expect(manifest).toStrictEqual<MediaManifest>(getManifest(2000))
+    })
+  })
+
+  describe("getMediaFile", () => {
+    it("return media file data", () => {
+      const mediaFile = getMediaFile(getMediaData(smallMediaCSS, 1000))
+
+      expect(mediaFile.name).toBe("screen-and-minwidth-1000px__style.css")
+      expect(mediaFile.content).toContain("@media screen and (min-width: 1000px)")
     })
   })
 })

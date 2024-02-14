@@ -69,6 +69,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest --run",
     "test:all": "pnpm test && pnpm -r test",
+    "test:watch": "vitest",
     "release": "bumpp package.json --commit --push --tag",
     "prepare": "husky"
   },

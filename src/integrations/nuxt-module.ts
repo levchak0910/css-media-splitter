@@ -73,6 +73,7 @@ export default defineNuxtModule<Options>({
         const result = await processCssMediaSplitter({
           distDir,
           assetDir,
+          mediaFileMinSize: options.mediaFileMinSize,
         })
 
         if (result === null)

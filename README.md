@@ -52,7 +52,7 @@ const result = await processCssMediaSplitter({
 })
 ```
 
-Use `result` which contain `manifest` and `loader` depending on the project setup.
+Use `result` which contain `manifest`, `loader` and `report` depending on the project setup.
 
 Example could be found in [playground](./playground/plain/media-splitter.ts).
 

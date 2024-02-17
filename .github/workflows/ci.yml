@@ -84,6 +84,9 @@ jobs:
       - name: Build
         run: pnpm run build
 
+      - name: Prepare Nuxt playground
+        run: pnpm -F nuxt nuxt-prepare
+
       - name: Test
         run: pnpm run test:all
 

@@ -3,6 +3,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "nuxt-prepare": "nuxt prepare",
     "build": "nuxt build",
     "preview": "cross-env PORT=3001 nuxt preview",
     "generate": "nuxt generate",

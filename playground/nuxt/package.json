@@ -5,7 +5,8 @@
   "scripts": {
     "build": "nuxt build",
     "preview": "cross-env PORT=3001 nuxt preview",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "test": "playwright test"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",

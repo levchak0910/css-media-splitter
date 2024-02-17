@@ -3,7 +3,7 @@ import { type Page, expect } from "@playwright/test"
 export async function testLinks(page: Page) {
   const links = await page.$$("link[rel=stylesheet]")
   const urls = await Promise.all(links.map(link => link.getAttribute("href")))
-  const amount = urls.filter(url => url?.includes("-minwidth-")).length
+  const amount = urls.filter(url => url?.includes("minwidth")).length
 
   const width = page.viewportSize()?.width
 

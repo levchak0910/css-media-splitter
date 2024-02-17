@@ -8,8 +8,8 @@ const dirname = fileURLToPath(new URL(".", import.meta.url))
 export default defineConfig({
   test: {
     include: [
-      "playground/**/tests/unit/**/*.fs.test.ts",
-      "tests/**/*.test.ts",
+      "playground/**/tests/**/*.fs.test.ts",
+      "tests/unit/**/*.test.ts",
     ],
     alias: {
       "@": path.join(dirname, "src"),

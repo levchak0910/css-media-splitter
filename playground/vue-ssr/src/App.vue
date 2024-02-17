@@ -20,7 +20,7 @@
   #some {
     color: lightblue;
     background: darkmagenta;
-  } 
+  }
 }
 
 @media screen and (min-width: 2000px) {
@@ -35,6 +35,6 @@
     justify-content: space-between;
     align-items: center;
     border-radius: 10px 10px 10px 10px;
-  } 
+  }
 }
 </style>

@@ -31,11 +31,9 @@ export default function VitePluginCssMediaSplitter(options?: Options): Plugin {
           throw new Error("no config")
 
         const distDir = path.resolve(config.root, config.build.outDir)
-        const assetDir = config.build.assetsDir
 
         const result = await processCssMediaSplitter({
           distDir,
-          assetDir,
           mediaFileMinSize: options?.mediaFileMinSize,
         })
 
@@ -46,7 +44,6 @@ export default function VitePluginCssMediaSplitter(options?: Options): Plugin {
 
         await writeHTMLFiles({
           files: htmlFiles,
-          assetDir,
           html: result.loader.html,
         })
 

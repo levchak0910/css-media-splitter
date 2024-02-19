@@ -6,7 +6,7 @@ import { getLoader } from "@/api"
 
 describe.sequential("getLoader", () => {
   it("returns loader from provided media manifest", async () => {
-    const manifest: MediaManifest = { "css-file-base": [["media-query", "media-css file-base"]] }
+    const manifest: MediaManifest = { "css-file-full-path": ["media-query"] }
 
     const result = await getLoader(manifest)
 

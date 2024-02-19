@@ -1,22 +1,24 @@
 import postcss, { type AtRule } from "postcss"
-import { kebabCase } from "case-anything"
 
 import type { FileData } from "../models/File"
-import type { MediaData, MediaManifest } from "../models/Media"
+import type { MediaManifest, MediaRecord } from "../models/Media"
 
-export async function extractMedia(cssFile: FileData, minSize: number): Promise<{ mediaData: MediaData[], transformedCSS: string }> {
+export const getMediaName = (query: string) => query.toLowerCase().replace("screen", "S").replace("min-width", "W").replace(/\W/g, "")
+export const getLinkHref = (query: string, sourceUrl: string) => `${sourceUrl.split(".").slice(0, -1).join(".")}.${getMediaName(query)}.css`
+
+export async function extractMedia(cssFile: FileData, minSize: number): Promise<{ mediaData: MediaRecord[], transformedCSS: string }> {
   const ast = postcss().process(cssFile.content)
-  const mq: MediaData[] = []
+  const mq: MediaRecord[] = []
 
   const atRuleStore = new Map<string, Set<AtRule>>()
 
   ast.root.walkAtRules("media", (atRule) => {
-    const query = atRule.params
-    const name = kebabCase(query)
+    const mediaQuery = atRule.params
+    const mediaName = getMediaName(mediaQuery)
 
     const content = atRule.nodes.map(node => node.toString()).join("")
 
-    const existingMQRecord = mq.find(data => data.filePath === cssFile.path.full && data.name === name)
+    const existingMQRecord = mq.find(record => record.filePath === cssFile.path.full && record.mediaName === mediaName)
 
     if (existingMQRecord) {
       existingMQRecord.nodeContents.push(content)
@@ -24,24 +26,24 @@ export async function extractMedia(cssFile: FileData, minSize: number): Promise<
     else {
       mq.push({
         filePath: cssFile.path.full,
-        fileName: cssFile.base,
-        name,
-        query,
+        fileBase: cssFile.base,
+        mediaName,
+        mediaQuery,
         nodeContents: [content],
       })
     }
 
-    if (atRuleStore.has(query)) {
-      const set = atRuleStore.get(query)!
+    if (atRuleStore.has(mediaQuery)) {
+      const set = atRuleStore.get(mediaQuery)!
       set.add(atRule)
     }
     else {
-      atRuleStore.set(query, new Set([atRule]))
+      atRuleStore.set(mediaQuery, new Set([atRule]))
     }
   })
 
   atRuleStore.forEach((set, query) => {
-    const existingMQRecordIndex = mq.findIndex(data => data.query === query)
+    const existingMQRecordIndex = mq.findIndex(record => record.mediaQuery === query)
     const contentLength = mq[existingMQRecordIndex].nodeContents.join("").length
 
     if (contentLength < minSize)
@@ -58,32 +60,27 @@ export async function extractMedia(cssFile: FileData, minSize: number): Promise<
 }
 
 interface MediaManifestOptions {
-  mediaData: MediaData[]
-  assetDir: string
+  mediaData: MediaRecord[]
 }
 
 export function getMediaManifest(options: MediaManifestOptions): MediaManifest {
-  const mediaManifest = options.mediaData.reduce((acc, data) => {
-    const mediaFile = getMediaFile(data)
-    const href = `/${options.assetDir}/${mediaFile.name}`.replace(/\/+/g, "/")
-    const accRecord = [data.query, href] as const
-
-    const recordName = data.filePath
+  const mediaManifest = options.mediaData.reduce<MediaManifest>((acc, record) => {
+    const recordName = record.filePath
     const existingRecord = acc[recordName]
 
     if (existingRecord)
-      existingRecord.push(accRecord)
-    else acc[recordName] = [accRecord]
+      existingRecord.push(record.mediaQuery)
+    else acc[recordName] = [record.mediaQuery]
 
     return acc
-  }, {} as MediaManifest)
+  }, {})
 
   return mediaManifest
 }
 
-export function getMediaFile(mediaData: MediaData): { name: string, content: string } {
+export function getMediaFile(mediaRecord: MediaRecord): { href: string, content: string } {
   return {
-    name: `${mediaData.name}__${mediaData.fileName}`,
-    content: `@media ${mediaData.query}{${mediaData.nodeContents.join("")}}`,
+    href: getLinkHref(mediaRecord.mediaQuery, mediaRecord.filePath),
+    content: `@media ${mediaRecord.mediaQuery}{${mediaRecord.nodeContents.join("")}}`,
   }
 }

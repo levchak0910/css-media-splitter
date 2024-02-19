@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 
-import type { MediaData, MediaManifest } from "@/models/Media"
+import type { MediaManifest, MediaRecord } from "@/models/Media"
 import type { FileData } from "@/models/File"
 
 import { extractMedia, getMediaFile, getMediaManifest } from "@/functions/extract-media-data"
@@ -44,20 +44,18 @@ function getCSSFile(content: string): FileData {
     content,
   }
 }
-function getMediaData(css: string, width: number): MediaData {
+function getMediaRecord(css: string, width: number): MediaRecord {
   return {
     filePath: "/dist/style.css",
-    fileName: "style.css",
-    name: `screen-and-minwidth-${width}px`,
-    query: `screen and (min-width: ${width}px)`,
+    fileBase: "style.css",
+    mediaName: `SandW${width}px`,
+    mediaQuery: `screen and (min-width: ${width}px)`,
     nodeContents: [compressCSS(css.split("\n").filter(l => l.startsWith(" ".repeat(4))).join(""))],
   }
 }
 function getManifest(width: number): MediaManifest {
   return {
-    "/dist/style.css": [
-      [`screen and (min-width: ${width}px)`, `/dist/screen-and-minwidth-${width}px__style.css`],
-    ],
+    "/dist/style.css": [`screen and (min-width: ${width}px)`],
   }
 }
 
@@ -75,34 +73,21 @@ describe.sequential("extract media data", () => {
       const finalCSS = compressCSS([defaultCSS, smallMediaCSS, bigMediaCSS].join(""))
       const result = await extractMedia(getCSSFile(finalCSS), 100)
 
-      expect(result.mediaData).toStrictEqual<MediaData[]>([getMediaData(bigMediaCSS, 2000)])
+      expect(result.mediaData).toStrictEqual<MediaRecord[]>([getMediaRecord(bigMediaCSS, 2000)])
       expect(result.transformedCSS).toBe(compressCSS([defaultCSS, smallMediaCSS].join("")))
     })
   })
 
   describe.sequential("getMediaManifest", () => {
     it("return empty object", async () => {
-      const manifest = await getMediaManifest({
-        mediaData: [],
-        assetDir: "dist",
-      })
+      const manifest = await getMediaManifest({ mediaData: [] })
 
       expect(manifest).toStrictEqual({})
     })
 
     it("return media manifest", async () => {
       const manifest = await getMediaManifest({
-        mediaData: [getMediaData(bigMediaCSS, 2000)],
-        assetDir: "dist",
-      })
-
-      expect(manifest).toStrictEqual<MediaManifest>(getManifest(2000))
-    })
-
-    it("auto remove extra slashes", async () => {
-      const manifest = await getMediaManifest({
-        mediaData: [getMediaData(bigMediaCSS, 2000)],
-        assetDir: "/dist///",
+        mediaData: [getMediaRecord(bigMediaCSS, 2000)],
       })
 
       expect(manifest).toStrictEqual<MediaManifest>(getManifest(2000))
@@ -111,9 +96,9 @@ describe.sequential("extract media data", () => {
 
   describe("getMediaFile", () => {
     it("return media file data", () => {
-      const mediaFile = getMediaFile(getMediaData(smallMediaCSS, 1000))
+      const mediaFile = getMediaFile(getMediaRecord(smallMediaCSS, 1000))
 
-      expect(mediaFile.name).toBe("screen-and-minwidth-1000px__style.css")
+      expect(mediaFile.href).toBe("/dist/style.SandW1000px.css")
       expect(mediaFile.content).toContain("@media screen and (min-width: 1000px)")
     })
   })

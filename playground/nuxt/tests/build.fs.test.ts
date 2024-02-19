@@ -17,8 +17,8 @@ describe.sequential("plain application building", () => {
     const files = await dir.read.files(distPath, { recursive: true })
 
     const entry = "entry.css"
-    const entry1000 = "screen-and-minwidth1000px__entry.css"
-    const entry2000 = "screen-and-minwidth2000px__entry.css"
+    const entry1000 = "entry.SandW1000px.css"
+    const entry2000 = "entry.SandW2000px.css"
 
     expect(files).toContainEqual(entry)
     expect(files).toContainEqual(entry1000)

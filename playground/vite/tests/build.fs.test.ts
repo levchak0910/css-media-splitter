@@ -18,20 +18,20 @@ describe.sequential("plain application building", () => {
     files = files.filter(f => !f.endsWith(".js"))
 
     expect(files).toStrictEqual([
+      "index.SandW1000px.css",
+      "index.SandW2000px.css",
       "index.css",
       "index.html",
-      "assets/screen-and-minwidth-1000px__index.css",
-      "assets/screen-and-minwidth-2000px__index.css",
     ])
 
-    const mainContent = await file.read.plain(path.resolve(distPath, files[0]))
+    const mainContent = await file.read.plain(path.resolve(distPath, files[2]))
     expect(mainContent).not.toContain("@media screen and (min-width: 1000px)")
     expect(mainContent).not.toContain("@media screen and (min-width: 2000px)")
 
-    const media1000Content = await file.read.plain(path.resolve(distPath, files[2]))
+    const media1000Content = await file.read.plain(path.resolve(distPath, files[0]))
     expect(media1000Content).toContain("@media screen and (min-width: 1000px)")
 
-    const media2000Content = await file.read.plain(path.resolve(distPath, files[3]))
+    const media2000Content = await file.read.plain(path.resolve(distPath, files[1]))
     expect(media2000Content).toContain("@media screen and (min-width: 2000px)")
   })
 })

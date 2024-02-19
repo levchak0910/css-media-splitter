@@ -1,13 +1,23 @@
 // @ts-check
 
-/** @type {Record<string, [query: string, href: string][]>} */
+/** @type {Record<string, string[]>} */
 const mediaManifest = JSON.parse(document.getElementById("<POST_BUILD: INSERT TEMPLATE ID>").textContent)
+
+/** @type {(query: string) => string} */
+// @ts-expect-error -- will be replaced by post-build script
+// eslint-disable-next-line unused-imports/no-unused-vars
+const getMediaName = "<POST_BUILD: INSERT FUNCTION: getMediaName>"
+
+/** @type {(query: string, sourceUrl: string) => string} */
+// @ts-expect-error -- will be replaced by post-build script
+const getLinkHref = "<POST_BUILD: INSERT FUNCTION: getLinkHref>"
 
 const isLinkInserted = (query, href) => !!document.querySelector(`link[href="${href}"][media="${query}"]`)
 
 function insertLink(query, href) {
   if (isLinkInserted(query, href))
     return
+
   const link = document.createElement("link")
   link.rel = "stylesheet"
   link.media = query
@@ -38,11 +48,12 @@ const observer = new MutationObserver((records) => {
   const urls = links.map(link => new URL(link.href).pathname).filter(href => !existingUrls.includes(href))
 
   urls.forEach((url) => {
-    const mediaFiles = mediaManifest[url]
-    if (!mediaFiles)
+    const mediaQueries = mediaManifest[url]
+    if (!mediaQueries)
       return
 
-    mediaFiles.forEach(([query, href]) => {
+    mediaQueries.forEach((query) => {
+      const href = getLinkHref(query, url)
       if (isLinkInserted(query, href))
         return
 

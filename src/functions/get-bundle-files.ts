@@ -24,7 +24,7 @@ async function getFilesByType(type: "html" | "js" | "css", files: string[], dist
 
   const filesDataPromises = filteredFiles.map(async (filePath) => {
     const filePathParsed = path.parse(filePath)
-    const fileFullPath = path.relative(path.resolve(distDir), filePath)
+    const fileFullPath = path.relative(distDir, filePath)
 
     const content = await file.read.plain(filePath)
 
@@ -39,6 +39,5 @@ async function getFilesByType(type: "html" | "js" | "css", files: string[], dist
     }
   })
 
-  const filesData = await Promise.all(filesDataPromises)
-  return filesData
+  return Promise.all(filesDataPromises)
 }

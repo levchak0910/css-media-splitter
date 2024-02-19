@@ -42,11 +42,9 @@ export default defineNuxtModule<Options>({
     if (IS_GENERATE) {
       await nuxt.hook("close", async () => {
         const distDir = path.resolve(nuxt.options.rootDir, ".output", "public")
-        const assetDir = nuxt.options.app.buildAssetsDir.replaceAll("/", "")
 
         const result = await processCssMediaSplitter({
           distDir,
-          assetDir,
           mediaFileMinSize: options.mediaFileMinSize,
         })
 
@@ -57,7 +55,6 @@ export default defineNuxtModule<Options>({
 
         await writeHTMLFiles({
           files: htmlFiles,
-          assetDir,
           html: result.loader.html,
         })
       })
@@ -68,11 +65,9 @@ export default defineNuxtModule<Options>({
 
       await nuxt.hook("build:done", async () => {
         const distDir = path.resolve(nuxt.options.buildDir, "dist", "client")
-        const assetDir = nuxt.options.app.buildAssetsDir.replaceAll("/", "")
 
         const result = await processCssMediaSplitter({
           distDir,
-          assetDir,
           mediaFileMinSize: options.mediaFileMinSize,
         })
 

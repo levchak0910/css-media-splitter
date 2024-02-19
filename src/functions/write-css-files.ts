@@ -2,31 +2,28 @@ import path from "node:path"
 
 import { file } from "../utils/fs"
 
-import type { MediaData } from "../models/Media"
+import type { MediaRecord } from "../models/Media"
 
 import { getMediaFile } from "./extract-media-data"
 
-interface MainOptions {
+interface WriteMainCSSFileOptions {
   path: string
   content: string
 }
 
-export async function writeMainCSSFile(options: MainOptions): Promise<void> {
+export async function writeMainCSSFile(options: WriteMainCSSFileOptions): Promise<void> {
   await file.write.plain(options.path, options.content)
 }
 
-interface MediaOptions {
-  mediaData: MediaData[]
+interface WriteMediaCSSFilesOptions {
+  mediaData: MediaRecord[]
   distDir: string
-  assetDir: string
 }
 
-export async function writeMediaCSSFiles(options: MediaOptions) {
-  const rootPath = path.resolve(options.distDir, options.assetDir)
-
-  const mediaFilesPromises = options.mediaData.map(async (data) => {
-    const mediaFile = getMediaFile(data)
-    const mediaFilePath = path.resolve(rootPath, mediaFile.name)
+export async function writeMediaCSSFiles(options: WriteMediaCSSFilesOptions) {
+  const mediaFilesPromises = options.mediaData.map(async (record) => {
+    const mediaFile = getMediaFile(record)
+    const mediaFilePath = path.join(options.distDir, mediaFile.href)
     await file.write.plain(mediaFilePath, mediaFile.content)
   })
 

@@ -4,13 +4,12 @@ import { file } from "../utils/fs"
 
 import type { FileData } from "../models/File"
 
-interface MediaOptions {
+interface WriteHTMLFilesOptions {
   html: string
-  assetDir: string
   files: FileData[]
 }
 
-export async function writeHTMLFiles(options: MediaOptions) {
+export async function writeHTMLFiles(options: WriteHTMLFilesOptions) {
   const htmlFilePromises = options.files.map(async (htmlFile) => {
     let html = htmlFile.content
     let ready = false
@@ -25,7 +24,7 @@ export async function writeHTMLFiles(options: MediaOptions) {
     }
 
     if (!ready) {
-      const regexp = new RegExp(`<(script|link|style).+(src|href)="/${options.assetDir}/`)
+      const regexp = /<(script|link|style).+(src|href)=".+\.(js|css)"/
       const index = html.match(regexp)?.index ?? -1
 
       if (index > -1) {

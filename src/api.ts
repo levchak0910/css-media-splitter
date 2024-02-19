@@ -1,4 +1,4 @@
-export type { MediaManifest, MediaData } from "./models/Media"
+export type { MediaManifest, MediaRecord } from "./models/Media"
 export type { Loader } from "./models/Loader"
 export type { FileData } from "./models/File"
 export type { Report } from "./models/Report"

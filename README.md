@@ -1,8 +1,8 @@
 # css-media-splitter
 
-The tool helps extract all @media at-rules into a dedicated file and download it only when the user device matches the media query.
+The tool extracts all @media at-rules into dedicated files and download them only when the user device matches the media query.
 
-This technique is the most valuable for mobile-first applications. It reduces the size of the CSS downloaded and increases the coverage ratio.
+This technique is the most valuable for mobile-first applications. It reduces the size of the CSS downloaded and increases the coverage ratio, so makes page loading faster and prevents a "Reduce unused CSS code" issue in the Lighthouse report.
 
 The package exposes:
 
@@ -25,6 +25,8 @@ The algorithm:
 4. generate manifest with relations between source files and media files.
 5. include the loader into all HTML files.
 
+_source file_ in scope of this tool equals to a **compiled CSS or HTML file** from your **final bundle**. Please, don't confuse with the file you actually work with.
+
 ## Usage
 
 ### Install the package
@@ -46,10 +48,7 @@ pnpm add -D css-media-splitter
 ```ts
 import processCssMediaSplitter from "css-media-splitter/plain"
 
-const result = await processCssMediaSplitter({
-  distDir: "dist",
-  assetDir: "styles",
-})
+const result = await processCssMediaSplitter({ distDir: "dist" })
 ```
 
 Use `result` which contain `manifest`, `loader` and `report` depending on the project setup.
@@ -97,14 +96,6 @@ Path to `dist` folder. Should be an absolute fs path or the folder name relative
 
 In `vite-plugin` and `nuxt-module` is set based on vite/nuxt config respectively.
 
-#### assetDir
-
-Available in: `plain`
-
-Path to `assets` folder where CSS files are located. Should be the folder name only.
-
-In `vite-plugin` and `nuxt-module` is set based on vite/nuxt config respectively.
-
 #### mediaFileMinSize
 
 Available in: `plain`, `vite-plugin`, `nuxt-module`
@@ -113,7 +104,7 @@ Use this option to define how large media file content should be, so it will be 
 
 This option is useful when media file content is small and it will take more space in the loader manifest than having it in the CSS source file.
 
-By default equals to **150** (experimentally calculated, _not recommended_ to set a smaller size).
+By default equals to **100** (experimentally calculated, _not recommended_ to set a smaller size).
 
 **In Vite project**: `vite.config.ts`
 
@@ -135,7 +126,7 @@ By default equals to **150** (experimentally calculated, _not recommended_ to se
 
 ### Loader
 
-By default, the loader will be included before the first `link`/`style`/`script` with the src path starting from the assets folder.
+By default, the loader will be included before the first `link`/`style`/`script` with the src path ends with `.css` or `.js` extension.
 
 In some scenarios it is not relevant, then you can put comment `<!-- css-media-splitter:loader -->` in place before any `link`/`style`/`script` is defined and the comment will be replaced automatically.
 

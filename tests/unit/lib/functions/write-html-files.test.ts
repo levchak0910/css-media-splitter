@@ -9,8 +9,6 @@ import { prepareFixtures } from "~/utils/fixtures"
 import { writeHTMLFiles } from "@/api"
 import { LOADER_REPLACE_COMMENT } from "@/config"
 
-const assetDir = "styles"
-
 describe.sequential("write html files", async () => {
   const { COMPILED_BIG_APP_PATH } = prepareFixtures()
 
@@ -19,7 +17,6 @@ describe.sequential("write html files", async () => {
     const htmlFileContent = "LOADER_HTML"
 
     await writeHTMLFiles({
-      assetDir,
       html: htmlFileContent,
       files: [{
         path: {
@@ -37,14 +34,37 @@ describe.sequential("write html files", async () => {
     expect(htmlFileChangedContent).toBe(`content1${htmlFileContent}content2`)
   })
 
-  it("correctly write html files when loader comment is not present and link/script is preset", async () => {
+  it("correctly write html files when loader comment is not present and css link is preset", async () => {
     const htmlFilePath = path.join(COMPILED_BIG_APP_PATH, "index.html")
     const htmlFileContent = "LOADER_HTML"
 
-    const linkHTML = `<link rel="ANY" href="/${assetDir}/app.ANY">`
+    const linkHTML = `<link rel="ANY" href="/app.css">`
 
     await writeHTMLFiles({
-      assetDir,
+      html: htmlFileContent,
+      files: [{
+        path: {
+          absolute: htmlFilePath,
+          full: "/index.html",
+        },
+        base: "index.html",
+        name: "index",
+        content: `content1${linkHTML}content2`,
+      }],
+    })
+
+    const htmlFileChangedContent = await file.read.plain(htmlFilePath)
+
+    expect(htmlFileChangedContent).toBe(`content1${htmlFileContent}${linkHTML}content2`)
+  })
+
+  it("correctly write html files when loader comment is not present and js script is preset", async () => {
+    const htmlFilePath = path.join(COMPILED_BIG_APP_PATH, "index.html")
+    const htmlFileContent = "LOADER_HTML"
+
+    const linkHTML = `<link rel="ANY" href="/app.js">`
+
+    await writeHTMLFiles({
       html: htmlFileContent,
       files: [{
         path: {

@@ -1,9 +1,9 @@
-export interface MediaData {
+export interface MediaRecord {
   filePath: string
-  fileName: string
-  name: string
-  query: string
+  fileBase: string
+  mediaName: string
+  mediaQuery: string
   nodeContents: string[]
 }
 
-export type MediaManifest = Record<string, Array<readonly [query: string, file: string]>>
+export type MediaManifest = Record<string, string[]>

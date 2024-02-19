@@ -8,13 +8,14 @@ import { prepareFixtures } from "~/utils/fixtures"
 
 import { writeMainCSSFile, writeMediaCSSFiles } from "@/api"
 
-const assetDir = "styles"
+const ASSET_DIR = "styles"
+const FILE_BASE = "app.css"
 
 describe.sequential("write css files", async () => {
   const { COMPILED_BIG_APP_PATH } = prepareFixtures()
 
   it("correctly write main css file", async () => {
-    const cssFilePath = path.join(COMPILED_BIG_APP_PATH, assetDir, "app.css")
+    const cssFilePath = path.join(COMPILED_BIG_APP_PATH, ASSET_DIR, FILE_BASE)
     const cssFileContent = "content"
 
     await writeMainCSSFile({
@@ -28,24 +29,23 @@ describe.sequential("write css files", async () => {
   })
 
   it("correctly write media css files", async () => {
-    const cssFilePath = path.join(COMPILED_BIG_APP_PATH, assetDir, "app.css")
+    const cssFilePath = path.join(ASSET_DIR, FILE_BASE)
     const mediaName = "media-name"
     const mediaQuery = "media-query"
     const mediaFileContent = "content"
 
     await writeMediaCSSFiles({
-      assetDir,
       distDir: COMPILED_BIG_APP_PATH,
       mediaData: [{
         filePath: cssFilePath,
-        fileName: "app.css",
-        name: mediaName,
-        query: mediaQuery,
+        fileBase: FILE_BASE,
+        mediaName,
+        mediaQuery,
         nodeContents: [mediaFileContent],
       }],
     })
 
-    const cssMediaFilePath = path.join(COMPILED_BIG_APP_PATH, assetDir, `${mediaName}__app.css`)
+    const cssMediaFilePath = path.join(COMPILED_BIG_APP_PATH, ASSET_DIR, `app.mediaquery.css`)
     const cssMediaFileContent = await file.read.plain(cssMediaFilePath)
 
     expect(cssMediaFileContent).toContain(`@media ${mediaQuery}`)

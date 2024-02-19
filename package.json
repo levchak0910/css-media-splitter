@@ -76,15 +76,17 @@
   "dependencies": {
     "@nuxt/kit": "^3.10.0",
     "@nuxt/schema": "^3.10.0",
-    "case-anything": "^2.1.13",
     "picocolors": "^1.0.0",
     "postcss": "^8.4.33"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.3",
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9",
     "@commitlint/cli": "^18.6.0",
     "@commitlint/config-conventional": "^18.6.0",
     "@playwright/test": "^1.41.2",
+    "@types/babel__core": "^7.20.5",
     "@types/cpx": "^1.5.5",
     "@types/node": "^20.11.5",
     "@types/uglify-js": "^3.17.4",

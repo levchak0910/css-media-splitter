@@ -1,3 +1,5 @@
+import path from "node:path"
+
 import type { MediaManifest } from "./models/Media"
 import type { Loader } from "./models/Loader"
 import type { Report } from "./models/Report"
@@ -10,18 +12,17 @@ import { getReport } from "./functions/report"
 
 interface Options {
   distDir: string
-  assetDir: string
   mediaFileMinSize?: number
 }
 
-const DEFAULT_MEDIA_FILE_MIN_SIZE = 150
+const DEFAULT_MEDIA_FILE_MIN_SIZE = 100
 
 export default async function processCssMediaSplitter(options: Options): Promise<null | {
   loader: Loader
   manifest: MediaManifest
   report: Report
 }> {
-  const { distDir, assetDir } = options
+  const distDir = path.resolve(options.distDir)
 
   const mediaFileMinSize = options?.mediaFileMinSize ?? DEFAULT_MEDIA_FILE_MIN_SIZE
 
@@ -39,8 +40,7 @@ export default async function processCssMediaSplitter(options: Options): Promise
       })
 
       const fileReport = getReport({
-        distDir: options.distDir,
-        assetDir: options.assetDir,
+        distDir,
         mainCSSFile: file,
         transformedCSS,
         mediaData,
@@ -59,14 +59,10 @@ export default async function processCssMediaSplitter(options: Options): Promise
 
   await writeMediaCSSFiles({
     distDir,
-    assetDir,
     mediaData,
   })
 
-  const mediaManifest = getMediaManifest({
-    mediaData,
-    assetDir,
-  })
+  const mediaManifest = getMediaManifest({ mediaData })
 
   const loader = getLoader(mediaManifest)
 

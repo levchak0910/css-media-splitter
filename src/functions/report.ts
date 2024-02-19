@@ -6,7 +6,7 @@ import { LIB_NAME } from "../config"
 
 import type { Report } from "../models/Report"
 import type { FileData } from "../models/File"
-import type { MediaData } from "../models/Media"
+import type { MediaRecord } from "../models/Media"
 
 import { formatBytes, formatFloat } from "../utils/format"
 
@@ -15,9 +15,8 @@ import { getMediaFile } from "../functions/extract-media-data"
 interface Options {
   mainCSSFile: FileData
   transformedCSS: string
-  mediaData: MediaData[]
+  mediaData: MediaRecord[]
   distDir: string
-  assetDir: string
 }
 
 const relativizePath = (p: string) => path.relative(path.resolve("."), p)
@@ -32,12 +31,12 @@ export function getReport(options: Options): Report {
       original: options.mainCSSFile.content.length,
       transformed: options.transformedCSS.length,
     },
-    mediaFiles: options.mediaData.map((data) => {
-      const mediaFile = getMediaFile(data)
+    mediaFiles: options.mediaData.map((record) => {
+      const mediaFile = getMediaFile(record)
 
       return {
-        path: relativizePath(path.resolve(path.join(options.distDir, options.assetDir, mediaFile.name))),
-        query: data.query,
+        path: relativizePath(path.join(options.distDir, mediaFile.href)),
+        query: record.mediaQuery,
         size: mediaFile.content.length,
       }
     }),

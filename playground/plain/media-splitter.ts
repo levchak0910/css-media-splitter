@@ -4,7 +4,6 @@ import { getBundleFiles, stringifyReport, writeHTMLFiles } from "css-media-split
 (async () => {
   const result = await processCssMediaSplitter({
     distDir: "dist",
-    assetDir: "styles",
     mediaFileMinSize: 0,
   })
 
@@ -16,7 +15,6 @@ import { getBundleFiles, stringifyReport, writeHTMLFiles } from "css-media-split
   })
 
   await writeHTMLFiles({
-    assetDir: "styles",
     files: htmlFiles,
     html: result.loader.html,
   })

@@ -81,4 +81,34 @@ describe.sequential("write html files", async () => {
 
     expect(htmlFileChangedContent).toBe(`content1${htmlFileContent}${linkHTML}content2`)
   })
+
+  it("correctly replace text and regexp when writing html", async () => {
+    const htmlFilePath = path.join(COMPILED_BIG_APP_PATH, "index.html")
+
+    const sString = "replace-string"
+    const rString = "REPLACED-STRING"
+    const sRegExp = "replace-regexp-2"
+    const rRegExp = "REPLACED-REGEXP"
+
+    await writeHTMLFiles({
+      html: "",
+      files: [{
+        path: {
+          absolute: htmlFilePath,
+          full: "/index.html",
+        },
+        base: "index.html",
+        name: "index",
+        content: `${sString} ${sRegExp}`,
+      }],
+      replace: [
+        [sString, rString],
+        [/replace-regexp-\d/, rRegExp],
+      ],
+    })
+
+    const htmlFileChangedContent = await file.read.plain(htmlFilePath)
+
+    expect(htmlFileChangedContent).toBe(`${rString} ${rRegExp}`)
+  })
 })

@@ -8,8 +8,8 @@ import { LIB_NAME } from "../src/config"
 import { dir, file } from "../src/utils/fs"
 import { getLinkHref, getMediaName } from "../src/functions/extract-media-data"
 
-const INSERT_ID_KEY = "<POST_BUILD: INSERT TEMPLATE ID>"
-const INSERT_ID_VALUE = `${LIB_NAME}--id`
+const INSERT_ID_KEY = "<POST_BUILD: INSERT TEMPLATE MANIFEST ID>"
+const INSERT_ID_VALUE = `${LIB_NAME}--manifest`
 
 const INSERT_LOADER_KEY = "<POST_BUILD: INSERT TEMPLATE OBSERVER>"
 

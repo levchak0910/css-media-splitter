@@ -1,7 +1,7 @@
 // @ts-check
 
 /** @type {Record<string, string[]>} */
-const mediaManifest = JSON.parse(document.getElementById("<POST_BUILD: INSERT TEMPLATE ID>").textContent)
+const mediaManifest = JSON.parse(document.getElementById("<POST_BUILD: INSERT TEMPLATE MANIFEST ID>").textContent)
 
 /** @type {(query: string) => string} */
 // @ts-expect-error -- will be replaced by post-build script

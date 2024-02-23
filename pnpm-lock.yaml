@@ -45,6 +45,9 @@ importers:
       '@types/cpx':
         specifier: ^1.5.5
         version: 1.5.5
+      '@types/etag':
+        specifier: ^1.8.3
+        version: 1.8.3
       '@types/node':
         specifier: ^20.11.5
         version: 20.11.5
@@ -54,6 +57,12 @@ importers:
       '@unhead/schema':
         specifier: ^1.8.10
         version: 1.8.10
+      acorn:
+        specifier: ^8.11.3
+        version: 8.11.3
+      acorn-walk:
+        specifier: ^8.3.2
+        version: 8.3.2
       bumpp:
         specifier: ^9.3.0
         version: 9.3.0
@@ -63,6 +72,9 @@ importers:
       eslint:
         specifier: ^8.56.0
         version: 8.56.0
+      etag:
+        specifier: ^1.8.1
+        version: 1.8.1
       husky:
         specifier: ^9.0.10
         version: 9.0.10
@@ -3865,6 +3877,12 @@ packages:
 
   /@types/estree@1.0.2:
     resolution: {integrity: sha512-VeiPZ9MMwXjO32/Xu7+OwflfmeoRwkE/qzndw42gGtgJwZopBnzy2gD//NN1+go1mADzkDcqf/KnFRSjTJ8xJA==}
+
+  /@types/etag@1.8.3:
+    resolution: {integrity: sha512-QYHv9Yeh1ZYSMPQOoxY4XC4F1r+xRUiAriB303F4G6uBsT3KKX60DjiogvVv+2VISVDuJhcIzMdbjT+Bm938QQ==}
+    dependencies:
+      '@types/node': 20.11.17
+    dev: true
 
   /@types/express-serve-static-core@4.17.43:
     resolution: {integrity: sha512-oaYtiBirUOPQGSWNGPWnzyAFJ0BP3cwvN4oWZQY+zUBwpVIGsKUkpBpSztp74drYcjavs7SKFZ4DX1V2QeN8rg==}

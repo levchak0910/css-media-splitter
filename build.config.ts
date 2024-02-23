@@ -12,6 +12,9 @@ export default defineBuildConfig({
   declaration: true,
   externals: [
     "vite",
+    "acorn",
+    "acorn-walk",
+    "etag",
   ],
   rollup: {
     emitCJS: true,

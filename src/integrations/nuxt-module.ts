@@ -12,6 +12,7 @@ import type { Loader } from "../models/Loader"
 import { getBundleFiles } from "../functions/get-bundle-files"
 import { writeHTMLFiles } from "../functions/write-html-files"
 import { stringifyReport } from "../functions/report"
+import { extractAssets, rewriteAssets } from "../functions/nuxt-assets"
 
 import processCssMediaSplitter from "../process"
 
@@ -30,14 +31,6 @@ export default defineNuxtModule<Options>({
 
     const IS_GENERATE = nuxt.options._generate
     const IS_BUILD = !nuxt.options._generate && !nuxt.options._prepare && !nuxt.options._start && !nuxt.options.dev
-
-    const DATA_REPLACER = { id: "data" }
-    const LOADER_REPLACER = { id: "loader" }
-
-    if (nuxt.options.app.head.script)
-      nuxt.options.app.head.script.push(DATA_REPLACER, LOADER_REPLACER)
-    else
-      nuxt.options.app.head.script = [DATA_REPLACER, LOADER_REPLACER]
 
     if (IS_GENERATE) {
       await nuxt.hook("close", async () => {
@@ -61,6 +54,14 @@ export default defineNuxtModule<Options>({
     }
 
     if (IS_BUILD) {
+      const MANIFEST_REPLACER = { id: `${LIB_NAME}--nuxt-manifest` }
+      const LOADER_REPLACER = { id: `${LIB_NAME}--nuxt-loader` }
+
+      if (nuxt.options.app.head.script)
+        nuxt.options.app.head.script.push(MANIFEST_REPLACER, LOADER_REPLACER)
+      else
+        nuxt.options.app.head.script = [MANIFEST_REPLACER, LOADER_REPLACER]
+
       let loader: Loader | null = null
 
       await nuxt.hook("build:done", async () => {
@@ -84,12 +85,15 @@ export default defineNuxtModule<Options>({
         if (loader === null)
           return
 
-        const rendererPath = path.resolve(nuxt.options.rootDir, ".output", "server", "chunks", "handlers", "renderer.mjs")
+        const SERVER_CHUNKS_DIR = path.resolve(nuxt.options.rootDir, ".output", "server", "chunks")
+        const distDir = path.resolve(nuxt.options.rootDir, ".output", "public")
+
+        const rendererPath = path.join(SERVER_CHUNKS_DIR, "handlers", "renderer.mjs")
         let renderer = await file.read.plain(rendererPath)
 
         renderer = renderer.replace(
-          JSON.stringify(DATA_REPLACER),
-          JSON.stringify({ innerHTML: loader.manifest.content, id: "<POST_BUILD: INSERT TEMPLATE ID>", type: "application/json" }),
+          JSON.stringify(MANIFEST_REPLACER),
+          JSON.stringify({ innerHTML: loader.manifest.content, id: "<POST_BUILD: INSERT TEMPLATE MANIFEST ID>", type: "application/json" }),
         )
         renderer = renderer.replace(
           JSON.stringify(LOADER_REPLACER),
@@ -97,6 +101,31 @@ export default defineNuxtModule<Options>({
         )
 
         await file.write.plain(rendererPath, renderer)
+
+        const { htmlFiles } = await getBundleFiles({ distDir })
+
+        if (htmlFiles.length === 0)
+          return
+
+        const scripts = [MANIFEST_REPLACER.id, LOADER_REPLACER.id].map(id => new RegExp(`<script id="${id}"></script>\n?`))
+
+        await writeHTMLFiles({
+          files: htmlFiles,
+          html: loader.html,
+          replace: scripts.map(s => [s, ""] as const),
+        })
+
+        const assetsFilePath = path.join(SERVER_CHUNKS_DIR, "nitro", "node-server.mjs")
+        const assetsFileContent = await file.read.plain(assetsFilePath)
+
+        const result = extractAssets(assetsFileContent)
+        await rewriteAssets({
+          assets: result.assets,
+          distDir,
+          assetsFilePath,
+          assetsFileContent,
+          assetsPosition: result.pos,
+        })
       })
     }
   },

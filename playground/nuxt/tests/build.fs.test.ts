@@ -9,29 +9,37 @@ import { dir, file } from "@/utils/fs"
 const APP_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 
 describe.sequential("plain application building", () => {
-  it("correctly process application building", async () => {
-    const distPath = path.resolve(APP_DIR, ".output", "public", "_nuxt")
+  it("correctly process application building for ssr and pre-rerendered routes", async () => {
+    const distPath = path.join(APP_DIR, ".output", "public", "_nuxt")
 
     execSync("pnpm -F=nuxt build")
 
     const files = await dir.read.files(distPath, { recursive: true })
 
-    const entry = "entry.css"
-    const entry1000 = "entry.SandW1000px.css"
-    const entry2000 = "entry.SandW2000px.css"
+    const expectedCSSFiles = [
+      "ssr.css",
+      "ssr.SandW1000px.css",
+      "ssr.SandW2000px.css",
+      "pre-rendered.css",
+      "pre-rendered.SandW1000px.css",
+      "pre-rendered.SandW2000px.css",
+    ]
 
-    expect(files).toContainEqual(entry)
-    expect(files).toContainEqual(entry1000)
-    expect(files).toContainEqual(entry2000)
+    for await (const cssFile of expectedCSSFiles) {
+      expect(files).toContainEqual(cssFile)
 
-    const mainContent = await file.read.plain(path.resolve(distPath, entry))
-    expect(mainContent).not.toContain("@media screen and (min-width:1000px)")
-    expect(mainContent).not.toContain("@media screen and (min-width:2000px)")
+      const cssFileContent = await file.read.plain(path.join(distPath, cssFile))
 
-    const media1000Content = await file.read.plain(path.resolve(distPath, entry1000))
-    expect(media1000Content).toContain("@media screen and (min-width:1000px)")
-
-    const media2000Content = await file.read.plain(path.resolve(distPath, entry2000))
-    expect(media2000Content).toContain("@media screen and (min-width:2000px)")
+      if (cssFile.includes("1000px")) {
+        expect(cssFileContent).toContain("@media screen and (min-width:1000px)")
+      }
+      else if (cssFile.includes("2000px")) {
+        expect(cssFileContent).toContain("@media screen and (min-width:2000px)")
+      }
+      else {
+        expect(cssFileContent).not.toContain("@media screen and (min-width:1000px)")
+        expect(cssFileContent).not.toContain("@media screen and (min-width:2000px)")
+      }
+    }
   })
 })

@@ -23,34 +23,38 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
     "./vite-plugin": {
-      "types": "./dist/integrations/vite-plugin.d.ts",
       "import": "./dist/integrations/vite-plugin.mjs",
       "require": "./dist/integrations/vite-plugin.cjs"
     },
     "./nuxt-module": {
-      "types": "./dist/integrations/nuxt-module.d.ts",
       "import": "./dist/integrations/nuxt-module.mjs",
       "require": "./dist/integrations/nuxt-module.cjs"
     },
     "./plain": {
-      "types": "./dist/process.d.ts",
       "import": "./dist/process.mjs",
       "require": "./dist/process.cjs"
     },
     "./api": {
-      "types": "./dist/api.d.ts",
       "import": "./dist/api.mjs",
       "require": "./dist/api.cjs"
     }
   },
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "*": [
+        "./dist/*",
+        "./*",
+        "./dist/index.d.ts"
+      ]
+    }
+  },
   "files": [
     "*.d.ts",
     "dist"
@@ -61,7 +65,7 @@
   "scripts": {
     "play": "pnpm -C playground run dev",
     "dev": "unbuild --stub",
-    "build": "unbuild && tsx bin/post-build.ts",
+    "build": "unbuild && tsx scripts/post-build-dist.ts && tsx scripts/post-build-lib.ts",
     "build:all": "pnpm build && pnpm -r build",
     "eslint": "eslint --ignore-pattern='*.md'",
     "lint": "pnpm eslint .",
@@ -71,6 +75,7 @@
     "test:all": "pnpm test && pnpm -r test",
     "test:watch": "vitest",
     "release": "bumpp package.json --commit --push --tag",
+    "package-check": "attw --pack .",
     "prepare": "husky"
   },
   "dependencies": {
@@ -81,6 +86,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.3",
+    "@arethetypeswrong/cli": "^0.14.1",
     "@babel/core": "^7.23.9",
     "@babel/preset-env": "^7.23.9",
     "@commitlint/cli": "^18.6.0",

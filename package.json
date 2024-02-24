@@ -65,7 +65,7 @@
   "scripts": {
     "play": "pnpm -C playground run dev",
     "dev": "unbuild --stub",
-    "build": "unbuild && tsx scripts/postbuild.ts && tsx bin/post-build.ts",
+    "build": "unbuild && tsx scripts/post-build-dist.ts && tsx scripts/post-build-lib.ts",
     "build:all": "pnpm build && pnpm -r build",
     "eslint": "eslint --ignore-pattern='*.md'",
     "lint": "pnpm eslint .",

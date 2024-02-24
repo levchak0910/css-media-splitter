@@ -23,27 +23,22 @@
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
     "./vite-plugin": {
-      "types": "./dist/integrations/vite-plugin.d.ts",
       "import": "./dist/integrations/vite-plugin.mjs",
       "require": "./dist/integrations/vite-plugin.cjs"
     },
     "./nuxt-module": {
-      "types": "./dist/integrations/nuxt-module.d.ts",
       "import": "./dist/integrations/nuxt-module.mjs",
       "require": "./dist/integrations/nuxt-module.cjs"
     },
     "./plain": {
-      "types": "./dist/process.d.ts",
       "import": "./dist/process.mjs",
       "require": "./dist/process.cjs"
     },
     "./api": {
-      "types": "./dist/api.d.ts",
       "import": "./dist/api.mjs",
       "require": "./dist/api.cjs"
     }
@@ -70,7 +65,7 @@
   "scripts": {
     "play": "pnpm -C playground run dev",
     "dev": "unbuild --stub",
-    "build": "unbuild && tsx bin/post-build.ts",
+    "build": "unbuild && tsx scripts/postbuild.ts && tsx bin/post-build.ts",
     "build:all": "pnpm build && pnpm -r build",
     "eslint": "eslint --ignore-pattern='*.md'",
     "lint": "pnpm eslint .",

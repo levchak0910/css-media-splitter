@@ -57,6 +57,7 @@
   },
   "files": [
     "*.d.ts",
+    "assets",
     "dist"
   ],
   "engines": {

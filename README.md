@@ -1,5 +1,9 @@
 # css-media-splitter
 
+<p align="center">
+<img src="./assets/css-media-splitter.png" alt="css-media-splitter logo" height="200">
+</p>
+
 The tool extracts all @media at-rules into dedicated files and download them only when the user device matches the media query.
 
 This technique is the most valuable for mobile-first applications. It reduces the size of the CSS downloaded and increases the coverage ratio, so makes page loading faster and prevents a "Reduce unused CSS code" issue in the Lighthouse report.

@@ -9,9 +9,11 @@ import { writeHTMLFiles } from "../functions/write-html-files"
 import { stringifyReport } from "../functions/report"
 
 import processCssMediaSplitter from "../process"
+import { getNativeLinksHtml } from "../functions/get-native-links"
 
 interface Options {
-  mediaFileMinSize?: number
+  mediaFileMinSize?: number,
+  useNativeLinkMedia?: boolean
 }
 
 export default function VitePluginCssMediaSplitter(options?: Options): Plugin {
@@ -44,7 +46,7 @@ export default function VitePluginCssMediaSplitter(options?: Options): Plugin {
 
         await writeHTMLFiles({
           files: htmlFiles,
-          html: result.loader.html,
+          html: options?.useNativeLinkMedia ? getNativeLinksHtml(result.mediaData) : result.loader.html,
         })
 
         // eslint-disable-next-line no-console

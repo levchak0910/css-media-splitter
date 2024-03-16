@@ -1,6 +1,6 @@
 import path from "node:path"
 
-import type { MediaManifest } from "./models/Media"
+import type { MediaManifest, MediaRecord } from "./models/Media"
 import type { Loader } from "./models/Loader"
 import type { Report } from "./models/Report"
 
@@ -20,7 +20,8 @@ const DEFAULT_MEDIA_FILE_MIN_SIZE = 100
 export default async function processCssMediaSplitter(options: Options): Promise<null | {
   loader: Loader
   manifest: MediaManifest
-  report: Report
+  report: Report,
+  mediaData: MediaRecord[]
 }> {
   const distDir = path.resolve(options.distDir)
 
@@ -70,5 +71,6 @@ export default async function processCssMediaSplitter(options: Options): Promise
     loader,
     manifest: mediaManifest,
     report,
+    mediaData
   }
 }

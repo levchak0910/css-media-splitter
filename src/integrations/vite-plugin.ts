@@ -8,7 +8,7 @@ import { getBundleFiles } from "../functions/get-bundle-files"
 import { writeHTMLFiles } from "../functions/write-html-files"
 import { stringifyReport } from "../functions/report"
 
-import processCssMediaSplitter from "../process"
+import processCssMediaSplitter from "../core"
 
 interface Options {
   mediaFileMinSize?: number

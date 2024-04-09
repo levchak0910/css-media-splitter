@@ -14,7 +14,7 @@ import { writeHTMLFiles } from "../functions/write-html-files"
 import { stringifyReport } from "../functions/report"
 import { extractAssets, rewriteAssets } from "../functions/nuxt-assets"
 
-import processCssMediaSplitter from "../process"
+import processCssMediaSplitter from "../core"
 
 interface Options {
   mediaFileMinSize?: number

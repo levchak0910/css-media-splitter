@@ -5,7 +5,7 @@ export default defineBuildConfig({
     "src/index",
     "src/integrations/vite-plugin",
     "src/integrations/nuxt-module",
-    "src/process",
+    "src/core",
     "src/api",
   ],
   clean: true,

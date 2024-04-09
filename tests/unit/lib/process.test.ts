@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest"
 
 import { prepareFixtures } from "~/utils/fixtures"
 
-import processCssMediaSplitter from "@/process"
+import processCssMediaSplitter from "@/core"
 
 describe.sequential("processCssMediaSplitter", () => {
   const { COMPILED_SMALL_APP_PATH, COMPILED_BIG_APP_PATH } = prepareFixtures()

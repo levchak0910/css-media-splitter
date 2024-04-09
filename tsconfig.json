@@ -9,7 +9,7 @@
       "@/*": ["./src/*"],
       "~/*": ["./tests/unit/*"],
       "css-media-splitter/api": ["./dist/api"],
-      "css-media-splitter/plain": ["./dist/process"],
+      "css-media-splitter/plain": ["./dist/core"],
       "css-media-splitter/vite-plugin": ["./dist/integrations/vite-plugin"],
       "css-media-splitter/nuxt-module": ["./dist/integrations/nuxt-module"]
     },

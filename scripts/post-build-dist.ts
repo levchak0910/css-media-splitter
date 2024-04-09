@@ -14,4 +14,4 @@ function patchCjs(cjsModulePath: string, name: string) {
 
 patchCjs(resolve("./dist/integrations/vite-plugin.cjs"), "VitePluginCssMediaSplitter")
 patchCjs(resolve("./dist/integrations/nuxt-module.cjs"), "nuxtModule")
-patchCjs(resolve("./dist/process.cjs"), "processCssMediaSplitter")
+patchCjs(resolve("./dist/core.cjs"), "processCssMediaSplitter")

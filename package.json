@@ -35,8 +35,8 @@
       "require": "./dist/integrations/nuxt-module.cjs"
     },
     "./plain": {
-      "import": "./dist/process.mjs",
-      "require": "./dist/process.cjs"
+      "import": "./dist/core.mjs",
+      "require": "./dist/core.cjs"
     },
     "./api": {
       "import": "./dist/api.mjs",

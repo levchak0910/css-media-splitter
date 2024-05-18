@@ -13,33 +13,36 @@ export async function extractMedia(cssFile: FileData, minSize: number): Promise<
   const atRuleStore = new Map<string, Set<AtRule>>()
 
   ast.root.walkAtRules("media", (atRule) => {
-    const mediaQuery = atRule.params
-    const mediaName = getMediaName(mediaQuery)
-
     const content = atRule.nodes.map(node => node.toString()).join("")
 
-    const existingMQRecord = mq.find(record => record.filePath === cssFile.path.full && record.mediaName === mediaName)
+    const mediaQueries = atRule.params.split(",").map(q => q.trim())
 
-    if (existingMQRecord) {
-      existingMQRecord.nodeContents.push(content)
-    }
-    else {
-      mq.push({
-        filePath: cssFile.path.full,
-        fileBase: cssFile.base,
-        mediaName,
-        mediaQuery,
-        nodeContents: [content],
-      })
-    }
+    mediaQueries.forEach((mediaQuery) => {
+      const mediaName = getMediaName(mediaQuery)
 
-    if (atRuleStore.has(mediaQuery)) {
-      const set = atRuleStore.get(mediaQuery)!
-      set.add(atRule)
-    }
-    else {
-      atRuleStore.set(mediaQuery, new Set([atRule]))
-    }
+      const existingMQRecord = mq.find(record => record.filePath === cssFile.path.full && record.mediaName === mediaName)
+
+      if (existingMQRecord) {
+        existingMQRecord.nodeContents.push(content)
+      }
+      else {
+        mq.push({
+          filePath: cssFile.path.full,
+          fileBase: cssFile.base,
+          mediaName,
+          mediaQuery,
+          nodeContents: [content],
+        })
+      }
+
+      if (atRuleStore.has(mediaQuery)) {
+        const set = atRuleStore.get(mediaQuery)!
+        set.add(atRule)
+      }
+      else {
+        atRuleStore.set(mediaQuery, new Set([atRule]))
+      }
+    })
   })
 
   atRuleStore.forEach((set, query) => {

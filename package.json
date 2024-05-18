@@ -1,7 +1,7 @@
 {
   "name": "css-media-splitter",
   "type": "module",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Utils that split css by media queries into dedicated files. Supports: plain html files, Vite and Nuxt.",
   "author": "Levcsák Sándor",
   "license": "MIT",

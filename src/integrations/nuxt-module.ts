@@ -88,8 +88,22 @@ export default defineNuxtModule<Options>({
         const SERVER_CHUNKS_DIR = path.resolve(nuxt.options.rootDir, ".output", "server", "chunks")
         const distDir = path.resolve(nuxt.options.rootDir, ".output", "public")
 
-        const rendererPath = path.join(SERVER_CHUNKS_DIR, "handlers", "renderer.mjs")
-        let renderer = await file.read.plain(rendererPath)
+        const potentialRendererPaths = [
+          path.join(SERVER_CHUNKS_DIR, "handlers", "renderer.mjs"),
+          path.join(SERVER_CHUNKS_DIR, "routes", "renderer.mjs"),
+        ]
+
+        let renderer = ""
+        let rendererPath = ""
+
+        for await (const chunkPath of potentialRendererPaths) {
+          try {
+            renderer = await file.read.plain(chunkPath)
+            rendererPath = chunkPath
+            break
+          }
+          catch { continue }
+        }
 
         renderer = renderer.replace(
           JSON.stringify(MANIFEST_REPLACER),
@@ -115,8 +129,22 @@ export default defineNuxtModule<Options>({
           replace: scripts.map(s => [s, ""] as const),
         })
 
-        const assetsFilePath = path.join(SERVER_CHUNKS_DIR, "nitro", "node-server.mjs")
-        const assetsFileContent = await file.read.plain(assetsFilePath)
+        const potentialAssetsFilePaths = [
+          path.join(SERVER_CHUNKS_DIR, "nitro", "node-server.mjs"),
+          path.join(SERVER_CHUNKS_DIR, "runtime.mjs"),
+        ]
+
+        let assetsFileContent = ""
+        let assetsFilePath = ""
+
+        for await (const potentialAssetsFilePath of potentialAssetsFilePaths) {
+          try {
+            assetsFileContent = await file.read.plain(potentialAssetsFilePath)
+            assetsFilePath = potentialAssetsFilePath
+            break
+          }
+          catch { continue }
+        }
 
         const result = extractAssets(assetsFileContent)
         await rewriteAssets({

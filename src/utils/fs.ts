@@ -8,7 +8,6 @@ import { LibError } from "../models/Error"
 function wrapFSCall<T extends (...args: any) => any>(fn: T): ((...args: Parameters<T>) => Promise<ReturnType<T>>) {
   return async (...args) => {
     try {
-      // @ts-expect-error -- hard to type
       return await fn(...args)
     }
     catch (error) {

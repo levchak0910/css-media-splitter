@@ -1,6 +1,6 @@
 import path from "node:path"
 
-import { type VariableDeclarator, parse } from "acorn"
+import { parse, type VariableDeclarator } from "acorn"
 import * as walk from "acorn-walk"
 import createEtag from "etag"
 
@@ -26,7 +26,6 @@ export function extractAssets(code: string): { assets: Assets, pos: AssetsPositi
   const program = parse(code, { ecmaVersion: "latest", sourceType: "module" })
 
   walk.simple(program, {
-    // @ts-expect-error -- wrong generic
     VariableDeclarator(node: VariableDeclarator) {
       if (node.id.type !== "Identifier" || node.id.name !== "assets")
         return

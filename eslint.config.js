@@ -7,5 +7,8 @@ export default antfu({
   },
   rules: {
     "node/prefer-global/buffer": ["error", "always"],
+    "perfectionist/sort-imports": "off",
+    "perfectionist/sort-named-exports": "off",
+    "perfectionist/sort-exports": "off",
   },
 })

@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "css-media-splitter": "workspace:*",
-    "vite": "^5.0.12",
-    "vite-plugin-inspect": "^0.8.1"
+    "vite": "^5.4.9",
+    "vite-plugin-inspect": "^0.8.7"
   }
 }

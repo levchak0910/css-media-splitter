@@ -13,7 +13,7 @@ export async function extractMedia(cssFile: FileData, minSize: number): Promise<
   const atRuleStore = new Map<string, Set<AtRule>>()
 
   ast.root.walkAtRules("media", (atRule) => {
-    const content = atRule.nodes.map(node => node.toString()).join("")
+    const content = atRule.nodes?.map(node => node.toString()).join("") ?? ""
 
     const mediaQueries = atRule.params.split(",").map(q => q.trim())
 

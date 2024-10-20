@@ -5,7 +5,7 @@ const mediaManifest = JSON.parse(document.getElementById("<POST_BUILD: INSERT TE
 
 /** @type {(query: string) => string} */
 // @ts-expect-error -- will be replaced by post-build script
-// eslint-disable-next-line unused-imports/no-unused-vars
+// eslint-disable-next-line no-unused-vars, unused-imports/no-unused-vars
 const getMediaName = "<POST_BUILD: INSERT FUNCTION: getMediaName>"
 
 /** @type {(query: string, sourceUrl: string) => string} */

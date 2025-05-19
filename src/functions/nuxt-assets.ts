@@ -1,6 +1,7 @@
 import path from "node:path"
 
-import { parse, type VariableDeclarator } from "acorn"
+import { parse } from "acorn"
+import type { VariableDeclarator } from "acorn"
 import * as walk from "acorn-walk"
 import createEtag from "etag"
 

@@ -1,4 +1,5 @@
-import postcss, { type AtRule } from "postcss"
+import postcss from "postcss"
+import type { AtRule } from "postcss"
 
 import type { FileData } from "../models/File"
 import type { MediaManifest, MediaRecord } from "../models/Media"

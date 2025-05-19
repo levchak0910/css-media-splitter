@@ -17,4 +17,9 @@ export default ({ url }: { url: string }) => defineConfig({
     command: "pnpm build && pnpm preview",
     url,
   },
+  expect: {
+    toHaveScreenshot: {
+      threshold: 0,
+    },
+  },
 })

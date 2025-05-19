@@ -1,4 +1,5 @@
-import { expect, type Page } from "@playwright/test"
+import { expect } from "@playwright/test"
+import type { Page } from "@playwright/test"
 
 export async function testLinks(page: Page) {
   const links = await page.$$("link[rel=stylesheet]")

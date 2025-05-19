@@ -14,13 +14,13 @@
     "koa": "^2.15.3",
     "koa-connect": "^2.1.0",
     "koa-send": "^5.0.1",
-    "vue": "^3.5.12"
+    "vue": "^3.5.14"
   },
   "devDependencies": {
     "@types/koa": "^2.15.0",
     "@types/koa-send": "^4.1.6",
-    "@vitejs/plugin-vue": "^5.1.4",
+    "@vitejs/plugin-vue": "^5.2.4",
     "css-media-splitter": "workspace:*",
-    "vite": "^5.4.9"
+    "vite": "^6.3.5"
   }
 }

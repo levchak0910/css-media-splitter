@@ -9,7 +9,7 @@ import { dir, file } from "@/utils/fs"
 const APP_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 
 describe.sequential("plain application building", () => {
-  it("correctly process application building for ssr and pre-rerendered routes", async () => {
+  it("correctly process application building for ssr and pre-rerendered routes", { timeout: 30000 }, async () => {
     const distPath = path.join(APP_DIR, ".output", "public", "_nuxt")
 
     execSync("pnpm -F=nuxt build")

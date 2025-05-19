@@ -12,8 +12,8 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "css-media-splitter": "workspace:*",
-    "nuxt": "^3.13.2",
-    "vue": "^3.5.12",
-    "vue-router": "^4.4.5"
+    "nuxt": "^3.17.3",
+    "vue": "^3.5.14",
+    "vue-router": "^4.5.1"
   }
 }

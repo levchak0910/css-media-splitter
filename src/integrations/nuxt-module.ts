@@ -89,8 +89,8 @@ export default defineNuxtModule<Options>({
         const distDir = path.resolve(nuxt.options.rootDir, ".output", "public")
 
         const potentialRendererPaths = [
-          path.join(SERVER_CHUNKS_DIR, "handlers", "renderer.mjs"),
           path.join(SERVER_CHUNKS_DIR, "routes", "renderer.mjs"),
+          path.join(SERVER_CHUNKS_DIR, "handlers", "renderer.mjs"),
         ]
 
         let renderer = ""
@@ -130,8 +130,9 @@ export default defineNuxtModule<Options>({
         })
 
         const potentialAssetsFilePaths = [
-          path.join(SERVER_CHUNKS_DIR, "nitro", "node-server.mjs"),
+          path.join(SERVER_CHUNKS_DIR, "nitro", "nitro.mjs"),
           path.join(SERVER_CHUNKS_DIR, "runtime.mjs"),
+          path.join(SERVER_CHUNKS_DIR, "nitro", "node-server.mjs"),
         ]
 
         let assetsFileContent = ""

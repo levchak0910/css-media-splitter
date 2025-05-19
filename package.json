@@ -81,6 +81,9 @@
   "dependencies": {
     "@nuxt/kit": "^3.13.2",
     "@nuxt/schema": "^3.13.2",
+    "acorn": "^8.14.1",
+    "acorn-walk": "^8.3.4",
+    "etag": "^1.8.1",
     "picocolors": "^1.1.1",
     "postcss": "^8.4.47"
   },
@@ -98,12 +101,9 @@
     "@types/node": "^22.7.7",
     "@types/uglify-js": "^3.17.5",
     "@unhead/schema": "^1.11.10",
-    "acorn": "^8.13.0",
-    "acorn-walk": "^8.3.4",
     "bumpp": "^9.7.1",
     "cpx": "^1.5.0",
     "eslint": "^9.13.0",
-    "etag": "^1.8.1",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
     "nodemon": "^3.1.7",

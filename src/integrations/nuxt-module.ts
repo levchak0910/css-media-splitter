@@ -29,6 +29,9 @@ export default defineNuxtModule<Options>({
     if (nuxt.options._prepare)
       return
 
+    // Prevent style inlining
+    nuxt.options.features.inlineStyles = false
+
     const IS_GENERATE = nuxt.options._generate
     const IS_BUILD = !nuxt.options._generate && !nuxt.options._prepare && !nuxt.options._start && !nuxt.options.dev
 
@@ -107,11 +110,21 @@ export default defineNuxtModule<Options>({
 
         renderer = renderer.replace(
           JSON.stringify(MANIFEST_REPLACER),
-          JSON.stringify({ innerHTML: loader.manifest.content, id: "<POST_BUILD: INSERT TEMPLATE MANIFEST ID>", type: "application/json" }),
+          JSON.stringify({
+            id: "<POST_BUILD: INSERT TEMPLATE MANIFEST ID>",
+            type: "application/json",
+            innerHTML: loader.manifest.content,
+            // https://github.com/unjs/unhead/blob/cda1045f2af93af3b4a2e3b4b834c18048e246a8/packages/unhead/src/types/tags.ts#L48
+            tagPriority: 0,
+          }),
         )
         renderer = renderer.replace(
           JSON.stringify(LOADER_REPLACER),
-          JSON.stringify({ innerHTML: loader.script.content }),
+          JSON.stringify({
+            innerHTML: loader.script.content,
+            // https://github.com/unjs/unhead/blob/cda1045f2af93af3b4a2e3b4b834c18048e246a8/packages/unhead/src/types/tags.ts#L48
+            tagPriority: 0,
+          }),
         )
 
         await file.write.plain(rendererPath, renderer)

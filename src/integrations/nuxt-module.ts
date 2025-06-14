@@ -32,8 +32,8 @@ export default defineNuxtModule<Options>({
     // Prevent style inlining
     nuxt.options.features.inlineStyles = false
 
-    const IS_GENERATE = nuxt.options._generate
-    const IS_BUILD = !nuxt.options._generate && !nuxt.options._prepare && !nuxt.options._start && !nuxt.options.dev
+    const IS_GENERATE = nuxt.options.nitro.static || (nuxt.options as any)._generate /* TODO: remove in future */
+    const IS_BUILD = !IS_GENERATE && !nuxt.options._prepare && !nuxt.options._start && !nuxt.options.dev
 
     if (IS_GENERATE) {
       await nuxt.hook("close", async () => {

@@ -36,7 +36,7 @@ export default defineNuxtModule<Options>({
     const IS_BUILD = !IS_GENERATE && !nuxt.options._prepare && !nuxt.options._start && !nuxt.options.dev
 
     if (IS_GENERATE) {
-      await nuxt.hook("close", async () => {
+      nuxt.hook("close", async () => {
         const distDir = path.resolve(nuxt.options.rootDir, ".output", "public")
 
         const result = await processCssMediaSplitter({
@@ -67,7 +67,7 @@ export default defineNuxtModule<Options>({
 
       let loader: Loader | null = null
 
-      await nuxt.hook("build:done", async () => {
+      nuxt.hook("build:done", async () => {
         const distDir = path.resolve(nuxt.options.buildDir, "dist", "client")
 
         const result = await processCssMediaSplitter({
@@ -84,7 +84,7 @@ export default defineNuxtModule<Options>({
         console.log(stringifyReport(result.report, "nuxt"))
       })
 
-      await nuxt.hook("close", async () => {
+      nuxt.hook("close", async () => {
         if (loader === null)
           return
 
